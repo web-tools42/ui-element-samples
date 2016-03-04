@@ -68,6 +68,7 @@ body {
 .main img {
   width: 100%;
   max-width: 650px;
+  cursor: zoom-in;
 }
 
 .zoomer {
