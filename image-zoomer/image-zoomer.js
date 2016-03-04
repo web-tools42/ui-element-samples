@@ -118,13 +118,13 @@ class ImageZoomer {
     this.ctx.clearRect(0, 0, 128, 128);
     this.ctx.fillStyle = '#FFFFFF';
     this.ctx.beginPath();
-    this.ctx.arc(64, 120 - radius, radius, 0, TAU);
+    this.ctx.arc(64, 110 - radius, radius, 0, TAU);
     this.ctx.closePath();
     this.ctx.fill();
 
     this.ctx.save();
     this.ctx.beginPath();
-    this.ctx.arc(64, 120 - (radius + 1), radius * 1.03, 0, TAU);
+    this.ctx.arc(64, 110 - (radius + 1), radius * 1.03, 0, TAU);
     this.ctx.clip();
     this.ctx.closePath();
     this.ctx.drawImage(this.target,
@@ -135,7 +135,7 @@ class ImageZoomer {
 
     this.ctx.fillStyle = glassyGlow;
     this.ctx.beginPath();
-    this.ctx.arc(64, 120 - radius, Math.max(0, radius - 2), 0, TAU);
+    this.ctx.arc(64, 110 - radius, Math.max(0, radius - 2), 0, TAU);
     this.ctx.closePath();
     this.ctx.fill();
 
