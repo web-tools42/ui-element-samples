@@ -76,6 +76,7 @@ class ImageZoomer {
     this.trackingTouch = true;
 
     this.targetZoomed = 1;
+    requestAnimationFrame(this.update);
   }
 
   onMove (evt) {
@@ -85,10 +86,6 @@ class ImageZoomer {
     this.x = evt.pageX || evt.touches[0].pageX;
     this.y = evt.pageY || evt.touches[0].pageY;
 
-    if (this.scheduledUpdate)
-      return;
-
-    this.scheduledUpdate = true;
   }
 
   onEnd () {
@@ -142,8 +139,11 @@ class ImageZoomer {
     this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
     this.zoomed += (this.targetZoomed - this.zoomed) / 3;
 
-    this.scheduledUpdate = false;
-    requestAnimationFrame(this.update);
+    if (this.zoomed > 0.001) {
+      requestAnimationFrame(this.update);
+    } else {
+      this.zoomed = 0;
+    }
   }
 
   addEventListeners () {
