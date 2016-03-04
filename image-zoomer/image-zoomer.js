@@ -108,10 +108,12 @@ class ImageZoomer {
     glassyGlow.addColorStop(0, 'rgba(255,255,255,0.8)');
     glassyGlow.addColorStop(0.5, 'rgba(255,255,255,0)');
 
+    // Shadow.
     this.ctx.shadowColor = 'rgba(0,0,0,0.4)';
     this.ctx.shadowBlur = 12;
     this.ctx.shadowOffsetY = 8;
 
+    // Background.
     this.ctx.clearRect(0, 0, 128, 128);
     this.ctx.fillStyle = '#FFFFFF';
     this.ctx.beginPath();
@@ -119,6 +121,7 @@ class ImageZoomer {
     this.ctx.closePath();
     this.ctx.fill();
 
+    // Zoomed image.
     this.ctx.save();
     this.ctx.beginPath();
     this.ctx.arc(64, 110 - (radius + 1), radius * 1.03, 0, TAU);
@@ -130,15 +133,20 @@ class ImageZoomer {
         scaledTargetHeight);
     this.ctx.restore();
 
+    // Glassy glow.
     this.ctx.fillStyle = glassyGlow;
     this.ctx.beginPath();
     this.ctx.arc(64, 110 - radius, Math.max(0, radius - 2), 0, TAU);
     this.ctx.closePath();
     this.ctx.fill();
 
+    // Position the parent element.
     this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
+
+    // Update the zoom value.
     this.zoomed += (this.targetZoomed - this.zoomed) / 3;
 
+    // Schedule another update if the zoom is fairly non-zero.
     if (this.zoomed > 0.001) {
       requestAnimationFrame(this.update);
     } else {
