@@ -81,7 +81,8 @@ class Cards {
     this.targetX = 0;
     let screenX = this.currentX - this.startX;
     if (Math.abs(screenX) > this.targetBCR.width * 0.35) {
-      this.targetX = (screenX > 0) ? this.targetBCR.width : -this.targetBCR.width;
+      this.targetX
+          = (screenX > 0) ? this.targetBCR.width : -this.targetBCR.width;
     }
 
     this.draggingCard = false;
@@ -107,58 +108,75 @@ class Cards {
     this.target.style.transform = `translateX(${this.screenX}px)`;
     this.target.style.opacity = opacity;
 
-    const isNearlyAtStart = (Math.abs(this.screenX) < 0.01);
+    // User has finished dragging.
+    if (this.draggingCard)
+      return;
+
+    const isNearlyAtStart = (Math.abs(this.screenX) < 0.1);
     const isNearlyInvisible = (opacity < 0.01);
 
-    // User has finished dragging.
-    if (!this.draggingCard) {
+    // If the card is nearly gone.
+    if (isNearlyInvisible) {
 
-      // If the card is nearly gone.
-      if (isNearlyInvisible) {
+      // Bail if there's no target or it's not attached to a parent anymore.
+      if (!this.target || !this.target.parentNode)
+        return;
 
-        // If there's still a target and the target is still
-        // attached to the DOM.
-        if (!this.target || !this.target.parentNode)
-          return;
+      this.target.parentNode.removeChild(this.target);
 
-        let isAfterCurrentTarget = false;
+      // Slide all the other cards.
+      this.animateOtherCardsIntoPosition();
 
-        const onTransitionEnd = evt => {
-          this.target = null;
-
-          evt.target.style.transition = 'none';
-          evt.target.removeEventListener('transitionend', onTransitionEnd);
-        }
-
-        for (let i = 0; i < this.cards.length; i++) {
-          const card = this.cards[i];
-
-          if (card === this.target) {
-            isAfterCurrentTarget = true;
-            continue;
-          }
-
-          if (!isAfterCurrentTarget)
-            continue;
-
-          card.style.transform = `translateY(${this.targetBCR.height + 20}px)`;
-          requestAnimationFrame(_ => {
-            card.style.transition = 'transform 0.15s cubic-bezier(0,0,0.31,1)';
-            card.style.transform = 'none';
-          });
-
-          card.addEventListener('transitionend', onTransitionEnd);
-        }
-
-        this.target.parentNode.removeChild(this.target);
-      }
-
-      if (isNearlyAtStart) {
-        this.target.style.willChange = 'initial';
-        this.target.style.transform = 'none';
-        this.target = null;
-      }
+    } else if (isNearlyAtStart) {
+      this.resetTarget();
     }
+  }
+
+  animateOtherCardsIntoPosition () {
+    let isAfterCurrentTarget = false;
+
+    const onTransitionEnd = evt => {
+      this.resetTarget();
+
+      evt.target.style.transition = 'none';
+      evt.target.removeEventListener('transitionend', onTransitionEnd);
+    };
+
+    for (let i = 0; i < this.cards.length; i++) {
+      const card = this.cards[i];
+
+      // Wait until we find the target card.
+      if (card === this.target) {
+        isAfterCurrentTarget = true;
+        continue;
+      }
+
+      if (!isAfterCurrentTarget)
+        continue;
+
+      // Move the card, then wait a frame and then slide it up.
+      card.style.transform = `translateY(${this.targetBCR.height + 20}px)`;
+      requestAnimationFrame(_ => {
+        card.style.transition = 'transform 0.15s cubic-bezier(0,0,0.31,1)';
+        card.style.transform = 'none';
+      });
+
+      card.addEventListener('transitionend', onTransitionEnd);
+    }
+
+    // If we didn't find any cards to slide remove the target.
+    if (!isAfterCurrentTarget) {
+      this.resetTarget();
+    }
+  }
+
+  resetTarget () {
+    if (!this.target)
+      return;
+
+    this.target.style.willChange = 'initial';
+    this.target.style.transform = 'none';
+    this.target = null;
   }
 }
 
