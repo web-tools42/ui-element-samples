@@ -19,7 +19,7 @@
 
 class Cards {
   constructor () {
-    this.cards = document.querySelectorAll('.card');
+    this.cards = Array.from(document.querySelectorAll('.card'));
 
     this.onStart = this.onStart.bind(this);
     this.onMove = this.onMove.bind(this);
@@ -124,49 +124,42 @@ class Cards {
 
       this.target.parentNode.removeChild(this.target);
 
+      const targetIndex = this.cards.indexOf(this.target);
+      this.cards.splice(targetIndex, 1);
+
       // Slide all the other cards.
-      this.animateOtherCardsIntoPosition();
+      this.animateOtherCardsIntoPosition(targetIndex);
 
     } else if (isNearlyAtStart) {
       this.resetTarget();
     }
   }
 
-  animateOtherCardsIntoPosition () {
-    let isAfterCurrentTarget = false;
-
-    const onTransitionEnd = evt => {
+  animateOtherCardsIntoPosition (startIndex) {
+    // If removed card was the last one, there is nothing to animate. Remove target.
+    if (startIndex === this.cards.length) {
       this.resetTarget();
-
-      evt.target.style.transition = 'none';
-      evt.target.removeEventListener('transitionend', onTransitionEnd);
-    };
-
-    for (let i = 0; i < this.cards.length; i++) {
-      const card = this.cards[i];
-
-      // Wait until we find the target card.
-      if (card === this.target) {
-        isAfterCurrentTarget = true;
-        continue;
-      }
-
-      if (!isAfterCurrentTarget)
-        continue;
-
-      // Move the card, then wait a frame and then slide it up.
-      card.style.transform = `translateY(${this.targetBCR.height + 20}px)`;
-      requestAnimationFrame(_ => {
-        card.style.transition = 'transform 0.15s cubic-bezier(0,0,0.31,1)';
-        card.style.transform = 'none';
-      });
-
-      card.addEventListener('transitionend', onTransitionEnd);
+      return;
     }
 
-    // If we didn't find any cards to slide remove the target.
-    if (!isAfterCurrentTarget) {
-      this.resetTarget();
+    const frames = [{
+      transform: `translateY(${this.targetBCR.height + 20}px)`
+    }, {
+      transform: 'none'
+    }];
+    const options = {
+      easing: 'cubic-bezier(0,0,0.31,1)',
+      duration: 150
+    };
+    const callback = () => this.resetTarget();
+
+    for (let i = startIndex; i < this.cards.length; i++) {
+      const card = this.cards[i];
+
+      // Move the card down then slide it up.
+      card
+        .animate(frames, options)
+        .addEventListener('finish', callback);
     }
   }
 
