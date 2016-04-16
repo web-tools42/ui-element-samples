@@ -151,7 +151,7 @@ class Cards {
       easing: 'cubic-bezier(0,0,0.31,1)',
       duration: 150
     };
-    const callback = () => this.resetTarget();
+    const onAnimationComplete = () => this.resetTarget();
 
     for (let i = startIndex; i < this.cards.length; i++) {
       const card = this.cards[i];
@@ -159,7 +159,7 @@ class Cards {
       // Move the card down then slide it up.
       card
         .animate(frames, options)
-        .addEventListener('finish', callback);
+        .addEventListener('finish', onAnimationComplete);
     }
   }
 
