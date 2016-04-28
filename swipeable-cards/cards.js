@@ -80,9 +80,11 @@ class Cards {
 
     this.targetX = 0;
     let screenX = this.currentX - this.startX;
-    if (Math.abs(screenX) > this.targetBCR.width * 0.35) {
-      this.targetX
-          = (screenX > 0) ? this.targetBCR.width : -this.targetBCR.width;
+    const threshold = this.targetBCR.width * 0.35;
+    if (Math.abs(screenX) > threshold) {
+      this.targetX = (screenX > 0) ?
+           this.targetBCR.width :
+          -this.targetBCR.width;
     }
 
     this.draggingCard = false;
@@ -136,7 +138,8 @@ class Cards {
   }
 
   animateOtherCardsIntoPosition (startIndex) {
-    // If removed card was the last one, there is nothing to animate. Remove target.
+    // If removed card was the last one, there is nothing to animate.
+    // Remove the target.
     if (startIndex === this.cards.length) {
       this.resetTarget();
       return;
