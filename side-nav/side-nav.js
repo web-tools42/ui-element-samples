@@ -70,8 +70,9 @@ class SideNav {
 
   onTouchEnd (evt) {
     const translateX = Math.min(0, this.currentX - this.startX);
+    this.sideNavContainerEl.style.transform = '';
+
     if (translateX < 0) {
-      this.sideNavContainerEl.style.transform = '';
       this.hideSideNav();
     }
   }
