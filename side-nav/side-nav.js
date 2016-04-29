@@ -31,9 +31,11 @@ class SideNav {
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onTouchEnd = this.onTouchEnd.bind(this);
     this.onTransitionEnd = this.onTransitionEnd.bind(this);
+    this.update = this.update.bind(this);
 
     this.startX = 0;
     this.currentX = 0;
+    this.touchingSideNav = false;
 
     this.addEventListeners();
   }
@@ -55,6 +57,9 @@ class SideNav {
 
     this.startX = evt.touches[0].pageX;
     this.currentX = this.startX;
+
+    this.touchingSideNav = true;
+    requestAnimationFrame(this.update);
   }
 
   onTouchMove (evt) {
@@ -64,17 +69,28 @@ class SideNav {
     if (translateX < 0) {
       evt.preventDefault();
     }
-
-    this.sideNavContainerEl.style.transform = `translateX(${translateX}px)`;
   }
 
   onTouchEnd (evt) {
+    this.touchingSideNav = false;
+
     const translateX = Math.min(0, this.currentX - this.startX);
     this.sideNavContainerEl.style.transform = '';
 
     if (translateX < 0) {
       this.hideSideNav();
     }
+  }
+
+  update () {
+    if (!this.sideNavEl.classList.contains('side-nav--visible'))
+      return;
+
+    if (this.touchingSideNav)
+      requestAnimationFrame(this.update);
+
+    const translateX = Math.min(0, this.currentX - this.startX);
+    this.sideNavContainerEl.style.transform = `translateX(${translateX}px)`;
   }
 
   blockClicks (evt) {
