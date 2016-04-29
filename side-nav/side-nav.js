@@ -35,6 +35,7 @@ class SideNav {
 
     this.startX = 0;
     this.currentX = 0;
+    this.touchingSideNav = false;
 
     this.addEventListeners();
   }
@@ -57,6 +58,7 @@ class SideNav {
     this.startX = evt.touches[0].pageX;
     this.currentX = this.startX;
 
+    this.touchingSideNav = true;
     requestAnimationFrame(this.update);
   }
 
@@ -70,6 +72,8 @@ class SideNav {
   }
 
   onTouchEnd (evt) {
+    this.touchingSideNav = false;
+
     const translateX = Math.min(0, this.currentX - this.startX);
     this.sideNavContainerEl.style.transform = '';
 
@@ -82,7 +86,8 @@ class SideNav {
     if (!this.sideNavEl.classList.contains('side-nav--visible'))
       return;
 
-    requestAnimationFrame(this.update);
+    if (this.touchingSideNav)
+      requestAnimationFrame(this.update);
 
     const translateX = Math.min(0, this.currentX - this.startX);
     this.sideNavContainerEl.style.transform = `translateX(${translateX}px)`;
