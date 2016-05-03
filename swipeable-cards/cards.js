@@ -145,25 +145,34 @@ class Cards {
       return;
     }
 
-    const frames = [{
-      transform: `translateY(${this.targetBCR.height + 20}px)`
-    }, {
-      transform: 'none'
-    }];
-    const options = {
-      easing: 'cubic-bezier(0,0,0.31,1)',
-      duration: 150
-    };
-    const onAnimationComplete = () => this.resetTarget();
+    const onAnimationComplete = evt => {
+      const card = evt.target;
+      card.removeEventListener('transitionend', onAnimationComplete);
+      card.style.transition = '';
+      card.style.transform = '';
 
+      this.resetTarget();
+    };
+
+    // Set up all the card animations.
     for (let i = startIndex; i < this.cards.length; i++) {
       const card = this.cards[i];
 
       // Move the card down then slide it up.
-      card
-        .animate(frames, options)
-        .addEventListener('finish', onAnimationComplete);
+      card.style.transform = `translateY(${this.targetBCR.height + 20}px)`;
+      card.addEventListener('transitionend', onAnimationComplete);
     }
+
+    // Now init them.
+    requestAnimationFrame(_ => {
+      for (let i = startIndex; i < this.cards.length; i++) {
+        const card = this.cards[i];
+
+        // Move the card down then slide it up.
+        card.style.transition = 'transform 150ms cubic-bezier(0,0,0.31,1)';
+        card.style.transform = '';
+      }
+    });
   }
 
   resetTarget () {
