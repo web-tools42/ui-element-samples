@@ -84,7 +84,7 @@ class SideNav {
     this.sideNavContainerEl.style.transform = '';
 
     if (translateX < 0) {
-      requestAnimationFrame(this.hideSideNav);
+      this.hideSideNav();
     }
   }
 
