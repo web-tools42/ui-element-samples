@@ -46,9 +46,9 @@ class SideNav {
     this.sideNavEl.addEventListener('click', this.hideSideNav);
     this.sideNavContainerEl.addEventListener('click', this.blockClicks);
 
-    document.addEventListener('touchstart', this.onTouchStart);
-    document.addEventListener('touchmove', this.onTouchMove);
-    document.addEventListener('touchend', this.onTouchEnd);
+    this.sideNavEl.addEventListener('touchstart', this.onTouchStart);
+    this.sideNavEl.addEventListener('touchmove', this.onTouchMove);
+    this.sideNavEl.addEventListener('touchend', this.onTouchEnd);
   }
 
   onTouchStart (evt) {
