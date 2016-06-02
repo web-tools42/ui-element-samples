@@ -57,9 +57,10 @@ limitations under the License.
     router.go(evt.target.href);
   }
 
-  for (let link of document.querySelectorAll('a')) {
+  let links = Array.from(document.querySelectorAll('a'));
+  links.forEach(function(link) {
     link.addEventListener('click', onClick);
-  }
+  });
   </script>
 </body>
 </html>
