@@ -38,6 +38,12 @@ sc-view {
   transform: scale(0.95);
   transition: transform 0.3s cubic-bezier(0,0,0.3,1),
     opacity 0.3s cubic-bezier(0,0,0.3,1);
+  font-size: 20vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }
 
 sc-view.visible {
@@ -47,20 +53,19 @@ sc-view.visible {
 }
 
 .view-home {
-  background: red;
+  background: rgb(128,00,64);
 }
 
 .view-contact {
-  background: blue;
+  background: rgb(00,128,64);
 }
 
 .view-about {
-  background: black;
-  color: white;
+  background: rgb(00,64,128);
 }
 
 .view-misc {
-  background: green;
+  background: rgb(128,64,0);
 }
 
 nav {

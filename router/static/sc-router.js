@@ -47,6 +47,9 @@ class SCRouter extends HTMLElement {
     if (this._currentView) {
       // ...and it's the one we already have, just update it.
       if (this._currentView === this._newView) {
+        // No transitions, so remove the boolean gate.
+        this._isTransitioningBetweenViews = false;
+
         return this._currentView.update(data);
       }
 
