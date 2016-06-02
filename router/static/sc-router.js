@@ -29,34 +29,40 @@ class SCRouter extends HTMLElement {
       return;
     }
 
-    // Figure out the new view.
+    // Store the new view.
     this._newView = this._routes.get(route);
 
-    // We don't want to create more promises here.
+    // We don't want to create more promises for the outgoing view animation,
+    // because then we get a lot of hanging Promises, so we add a boolean gate
+    // here to stop if there's already a transition running.
     if (this._isTransitioningBetweenViews) {
       return Promise.resolve();
     }
-
     this._isTransitioningBetweenViews = true;
 
+    // Assume that there's no outgoing animation required.
     let outViewPromise = Promise.resolve();
 
     // If there is a current view...
     if (this._currentView) {
-      // If it's the one we already have, just update it.
+      // ...and it's the one we already have, just update it.
       if (this._currentView === this._newView) {
         return this._currentView.update(data);
       }
 
-      // Otherwise we animate it out.
+      // Otherwise animate it out, and take the Promise made by the view as an
+      // indicator that the view is done.
       outViewPromise = this._currentView.out(data);
     }
 
+    // Whenever the outgoing animation is done (which may be immediately if
+    // there isn't one), update the references to the current view, allow
+    // outgoing animations to proceed.
     return outViewPromise
       .then(_ => {
         this._currentView = this._newView;
         this._isTransitioningBetweenViews = false;
-        return this._newView.in(data)
+        return this._newView.in(data);
       });
   }
 
@@ -65,24 +71,28 @@ class SCRouter extends HTMLElement {
     return this._onChanged();
   }
 
-  _clearRoutes () {
-    this._routes.clear();
-  }
-
-  _createRoute (route, view) {
+  addRoute (route, view) {
     if (this._routes.has(route))
       return console.warn(`Route already exists: ${route}`);
 
     this._routes.set(route, view);
   }
 
-  _createRoutes () {
+  _addRoutes () {
     for (let view of document.querySelectorAll('sc-view')) {
       if (!view.route)
         continue;
 
-      this._createRoute(new RegExp(view.route, 'i'), view);
+      this.addRoute(new RegExp(view.route, 'i'), view);
     }
+  }
+
+  _removeRoute (route) {
+    this._routes.delete(route);
+  }
+
+  _clearRoutes () {
+    this._routes.clear();
   }
 
   createdCallback () {
@@ -93,7 +103,7 @@ class SCRouter extends HTMLElement {
   attachedCallback () {
     window.addEventListener('popstate', this._onChanged);
     this._clearRoutes();
-    this._createRoutes();
+    this._addRoutes();
     this._onChanged();
   }
 
