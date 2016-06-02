@@ -82,12 +82,13 @@ class SCRouter extends HTMLElement {
   }
 
   _addRoutes () {
-    for (let view of document.querySelectorAll('sc-view')) {
+    let views = Array.from(document.querySelectorAll('sc-view'));
+    views.forEach(function(view) {
       if (!view.route)
-        continue;
+        return;
 
       this.addRoute(new RegExp(view.route, 'i'), view);
-    }
+    }, this);
   }
 
   _removeRoute (route) {
