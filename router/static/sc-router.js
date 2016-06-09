@@ -83,7 +83,7 @@ class SCRouter extends HTMLElement {
 
   _addRoutes () {
     let views = Array.from(document.querySelectorAll('sc-view'));
-    views.forEach(function(view) {
+    views.forEach(view => {
       if (!view.route)
         return;
 

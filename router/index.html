@@ -51,16 +51,17 @@ limitations under the License.
   <script defer src="/static/sc-router.js"></script>
   <script>
   const router = document.querySelector('sc-router');
+  const links = Array.from(document.querySelectorAll('a'));
 
-  function onClick(evt) {
+  function onClick (evt) {
     evt.preventDefault();
     router.go(evt.target.href);
   }
 
-  let links = Array.from(document.querySelectorAll('a'));
-  links.forEach(function(link) {
+  links.forEach(link => {
     link.addEventListener('click', onClick);
   });
-  </script>
+
+</script>
 </body>
 </html>
