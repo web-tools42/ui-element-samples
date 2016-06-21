@@ -168,8 +168,8 @@ class Cards {
       for (let i = startIndex; i < this.cards.length; i++) {
         const card = this.cards[i];
 
-        // Move the card down then slide it up.
-        card.style.transition = 'transform 150ms cubic-bezier(0,0,0.31,1)';
+        // Move the card down then slide it up, with delay according to "distance"
+        card.style.transition = `transform 150ms cubic-bezier(0,0,0.31,1) ${i*50}ms`;
         card.style.transform = '';
       }
     });
