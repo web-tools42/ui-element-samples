@@ -1,9 +1,6 @@
-# Router 2
+# Router (Advanced)
 
-The router requires a server-side component because of the deeplinking. In order to get that to work, you should clone the repo and do the following:
+This router build on the previous SPA-like one, but does not require a server-side component,
+and works if the user does not have JavaScript.
 
-1. Clone the project.
-1. Install the [Google App Engine SDK For Python](https://cloud.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python).
-1. Run the SDK app to create symlinks.
-1. Add it to the GAE Launcher you downloaded (Existing app, (Ctrl|Cmd)+Shift+N, /path/to/router).
-1. Enjoy your local version of the router sample, probably at [localhost:8080](http://localhost:8080).
+It also loads content over XHR rather than baking it into the page.
