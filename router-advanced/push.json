@@ -1,0 +1,58 @@
+{
+	"/": {
+		"/about/": {
+			"type": "document",
+			"weight": 1
+		},
+		"/contact/": {
+			"type": "document",
+			"weight": 1
+		},
+		"/misc/": {
+			"type": "document",
+			"weight": 1
+		}
+	},
+	"/about/": {
+		"/": {
+			"type": "document",
+			"weight": 1
+		},
+		"/contact/": {
+			"type": "document",
+			"weight": 1
+		},
+		"/misc/": {
+			"type": "document",
+			"weight": 1
+		}
+	},
+	"/contact/": {
+		"/about/": {
+			"type": "document",
+			"weight": 1
+		},
+		"/": {
+			"type": "document",
+			"weight": 1
+		},
+		"/misc/": {
+			"type": "document",
+			"weight": 1
+		}
+	},
+	"/misc/": {
+		"/about/": {
+			"type": "document",
+			"weight": 1
+		},
+		"/contact/": {
+			"type": "document",
+			"weight": 1
+		},
+		"/": {
+			"type": "document",
+			"weight": 1
+		}
+	}
+}

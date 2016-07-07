@@ -38,9 +38,6 @@ class SCView extends HTMLElement {
   }
 
   _loadView (data) {
-    // Create an artifical delay for testing.
-    const delay = 1000 + Math.floor(Math.random() * 5000);
-
     // Wait for half a second then show the spinner.
     const spinnerTimeout = setTimeout(_ => this._showSpinner(), 500);
 
@@ -64,7 +61,7 @@ class SCView extends HTMLElement {
       this._hideSpinner();
     };
     xhr.responseType = 'document';
-    xhr.open('GET', `${data[0]}?delay=${delay}`);
+    xhr.open('GET', `${data[0]}`);
     xhr.send();
   }
 
