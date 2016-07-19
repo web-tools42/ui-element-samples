@@ -172,7 +172,7 @@ function numDomNodes(node) {
   if(!node.children || node.children.length == 0)
     return 0;
   var childrenCount = Array.from(node.children).map(numDomNodes);
-  return node.children.length + childrenCount.reduce((p, c) => p + c, 0);
+  return node.children.length + childrenCount.reduce(function(p, c){ return p + c; }, 0);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -187,9 +187,15 @@ document.addEventListener('DOMContentLoaded', function() {
   stats.addPanel(domPanel);
   stats.showPanel(3);
   document.body.appendChild(stats.dom);
-  setInterval(function() {
-    domPanel.update(numDomNodes(document.body), 1500);
-  }, 100);
+  var TIMEOUT = 100;
+  setTimeout(function timeoutFunc() {
+    // Only update DOM node graph when we have time to spare to call
+    // numDomNodes(), which is a fairly expensive function.
+    requestIdleCallback(function() {
+      domPanel.update(numDomNodes(document.body), 1500);
+      setTimeout(timeoutFunc, TIMEOUT);
+    });
+  }, TIMEOUT);
 
 
 });
