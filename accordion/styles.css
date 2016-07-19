@@ -1,0 +1,86 @@
+/**
+ *
+ * Copyright 2016 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #EEE;
+}
+
+sc-accordion {
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 3px 4px rgba(0,0,0,0.4);
+  background: #FFF;
+  border-radius: 3px;
+}
+
+sc-accordion[enhanced] {
+  visibility: hidden;
+  height: 600px;
+  overflow: hidden;
+  position: relative;
+}
+
+sc-accordion[enhanced] sc-pane {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+sc-accordion[active] {
+  visibility: visible;
+}
+
+sc-accordion[active] sc-pane {
+  transition: transform 0.3s cubic-bezier(0, 0, 0.3, 1);
+}
+
+sc-pane button[role="tab"] {
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  border: none;
+  font-size: 16px;
+  background: #666;
+  color: #FFF;
+  border-bottom: 1px solid #444;
+}
+
+sc-pane button[role="tab"]:focus {
+  background: #333;
+}
+
+sc-pane .content {
+  padding: 16px;
+  overflow-y: scroll;
+  background-color: #FFF;
+}
