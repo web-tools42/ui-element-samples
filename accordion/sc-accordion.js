@@ -79,7 +79,7 @@ class SCAccordion extends HTMLElement {
       //   index = this._panes.length - 1;
       // }
 
-      index %= this._panes.length;
+      index = (index + this._panes.length) % this._panes.length;
 
       panesArray[index].header.focus();
     });
