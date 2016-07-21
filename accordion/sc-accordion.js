@@ -73,13 +73,11 @@ class SCAccordion extends HTMLElement {
         default: break;
       }
 
-      // if (index < 0) {
-      //   index = 0;
-      // } else if (index >= this._panes.length) {
-      //   index = this._panes.length - 1;
-      // }
-
-      index = (index + this._panes.length) % this._panes.length;
+      if (index < 0) {
+        index = 0;
+      } else if (index >= this._panes.length) {
+        index = this._panes.length - 1;
+      }
 
       panesArray[index].header.focus();
     });
