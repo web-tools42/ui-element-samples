@@ -98,8 +98,9 @@ class SCAccordion extends HTMLElement {
   }
 
   _calculateGeometries () {
-    if (this._panes.length === 0)
+    if (this._panes.length === 0) {
       return;
+    }
 
     this._headerHeight = this._panes[0].header.offsetHeight;
     this._availableHeight = this.offsetHeight -
