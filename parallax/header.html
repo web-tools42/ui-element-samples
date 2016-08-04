@@ -2,6 +2,16 @@
 <html>
 <head>
 <style>
+
+/* CSS perspective parallax demo. This demo outlines all of the workarounds
+ * necessary to get perspective parallax working performantly in Chrome, Edge,
+ * Firefox and Safari (when not using -webkit-overflow-scrolling: touch).
+ *
+ * Outstanding issues:
+ * - Edge developer tools is showing a Paint of <root> with the bounds of the
+ *   window.
+ */
+
 html, body { 
   margin:0;
   padding:0;
@@ -9,7 +19,9 @@ html, body {
 }
 
 body {
-  background: gray;
+  /* Without this compositing trigger, Edge does not correctly parallax until
+     a repaint is triggered otherwise. */
+  transform: translateZ(0);
 }
 
 #overflow {
@@ -17,54 +29,73 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
 	perspective: 1px;
-	transform-style: preserve-3d;
-	will-change: transform;
+	perspective-origin: 0% 0%;
 }
 
-#header {
-  background: white;
-  height: 40px;
-  position: absolute;
-  top: 0;
-  width: calc(100% - 15px);
-  z-index: 1; /* FIXME: Header is above scrollbar! :( */
-}
-
-#container {
-  height: 50%;
-  position: relative;
-}
-
-#container > div {
+.parallax {
   background: 50% 50% / cover;
-  background-image: url('img/park.jpg');
-  position: absolute;
+  background-image: url('img/header-park.jpg');
+  position: relative;
   transform: translateZ(-2px) scale(3);
-  z-index: 0;
-  top: -75%; /* FIXME: Why do I have to do this to position correctly??? */
-  left: -15px;
-  height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: 0% 0% 0px;
+  height: 30%;
   width: 100%;
 }
 
 #content {
   background: white;
   height: 3000px;
-  position: relative;
-  will-change: transform; /* Shouldn't be necessary. */
+  /* Chrome cannot handle z-index: -1 on the parallax background without
+     repainting, so we instead move the content above the parallax background.
+     */
   z-index: 1;
+  position: relative;
 }
+.header {
+  /* Without this fixed position header, Edge does not correctly parallax until
+     it is forced to repaint. */
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  width: 100%; /* FIXME: This covers up the scrollbar */
+  height: 36px;
+  background: white;
+  border-bottom: 1px solid #aaa;
+}
+
+/* This magic pixel div is necessary to get the #content div to paint its
+   background to the top of its bounds. Otherwise the background is only painted
+   where the content starts (excluding margins). */
+.magic-pixel {
+  width: 1px;
+  height: 1px;
+}
+
+.box {
+  margin: 10% 15%;
+  border: 3px solid #aaa;
+  padding: 10%;
+}
+
 </style>
 </head>
+
 <body>
-<div id="header">
-  Chirp chirp
-</div>
+<div class="header">This is the header</div>
 <div id="overflow">
-  <div id="container"><div></div></div>
-  <div id="content">
-    Content
-  </div>
+    <div class="parallax"></div>
+    <div id="content">
+      <div class="magic-pixel"></div>
+      <div class="box">Content</div>
+      <div class="box">in</div>
+      <div class="box">boxes</div>
+      <div class="box">to</div>
+      <div class="box">make</div>
+      <div class="box">the</div>
+      <div class="box">page</div>
+      <div class="box">scroll</div>
+    </div>
 </div>
 </body>
 </html>
