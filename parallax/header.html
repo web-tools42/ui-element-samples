@@ -28,19 +28,22 @@ body {
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-	perspective: 1px;
-	perspective-origin: 0% 0%;
+	-webkit-overflow-scrolling: touch;
 }
 
-.parallax {
+#parallax {
   background: 50% 50% / cover;
   background-image: url('img/header-park.jpg');
   position: relative;
   transform: translateZ(-2px) scale(3);
   transform-style: preserve-3d;
   transform-origin: 0% 0% 0px;
-  height: 30%;
+  height: 400px;
   width: 100%;
+}
+
+#container {
+  position: relative;
 }
 
 #content {
@@ -52,6 +55,7 @@ body {
   z-index: 1;
   position: relative;
 }
+
 .header {
   /* Without this fixed position header, Edge does not correctly parallax until
      it is forced to repaint. */
@@ -78,23 +82,50 @@ body {
   padding: 10%;
 }
 
+.overflow-parallax #overflow,
+.sticky-parallax #container {
+  perspective: 1px;
+  perspective-origin: 0% 0%;
+}
+
+.overflow-parallax #container {
+  transform-style: preserve-3d;
+}
+
+.sticky-parallax #parallax {
+  position: -webkit-sticky;
+  top: 0;
+}
+
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var parallaxElement = document.getElementById('parallax');
+  if (getComputedStyle(document.getElementById('overflow')).webkitOverflowScrolling) {
+    document.body.classList.add('sticky-parallax');
+  } else {
+    document.body.classList.add('overflow-parallax');
+  }
+});
+</script>
 </head>
 
 <body>
 <div class="header">This is the header</div>
 <div id="overflow">
-    <div class="parallax"></div>
-    <div id="content">
-      <div class="magic-pixel"></div>
-      <div class="box">Content</div>
-      <div class="box">in</div>
-      <div class="box">boxes</div>
-      <div class="box">to</div>
-      <div class="box">make</div>
-      <div class="box">the</div>
-      <div class="box">page</div>
-      <div class="box">scroll</div>
+    <div id="container">
+      <div id="parallax"></div>
+      <div id="content">
+        <div class="magic-pixel"></div>
+        <div class="box">Content</div>
+        <div class="box">in</div>
+        <div class="box">boxes</div>
+        <div class="box">to</div>
+        <div class="box">make</div>
+        <div class="box">the</div>
+        <div class="box">page</div>
+        <div class="box">scroll</div>
+      </div>
     </div>
 </div>
 </body>
