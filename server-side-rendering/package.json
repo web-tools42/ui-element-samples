@@ -9,5 +9,5 @@
     "http2": "^3.3.5",
     "mz": "^2.4.0"
   },
-  "devDependencies": {},
+  "devDependencies": {}
 }
