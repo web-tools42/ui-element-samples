@@ -1,69 +1,107 @@
-document.addEventListener('DOMContentLoaded', initializeParallax);
+function initializeParallax(clip, forceSticky) {
+  var parallax = clip.querySelectorAll('*[parallax]');
+  var parallaxDetails = [];
+  var sticky = forceSticky;
 
-function initializeParallax() {
-  var containers = document.querySelectorAll('*[parallax-container]');
-  var clip;
-  for (var i = 0; i < containers.length; i++) {
-    // Maybe optimize to not redo this for the same clip or iterate over clips
-    // instead of containers.
-    clip = findOverflowClip(containers[i]);
-    clip.style.perspectiveOrigin = 'bottom right';
-    clip.style.transformStyle = 'preserve-3d'
-    clip.style.perspective = '1px';
+  for (var i = 0; i < parallax.length; i++) {
+    var elem = parallax[i];
+    var container = elem.parentNode;
+    if (getComputedStyle(container).overflow != 'visible') {
+      console.error('Need non-scrollable container to apply perspective for ', elem);
+      continue;
+    }
+    if (clip && container.parentNode != clip) {
+      console.warn('Currently we only track a single overflow clip, but elements from multiple clips found.', elem);
+    }
+    var clip = container.parentNode;
+    if (getComputedStyle(clip).overflow == 'visible') {
+      console.error('Parent of sticky container should be scrollable element', elem);
+    }
+    // TODO(flackr): optimize to not redo this for the same clip/container.
+    var perspectiveElement;
+    if (sticky || getComputedStyle(clip).webkitOverflowScrolling) {
+      sticky = true;
+      perspectiveElement = container;
+    } else {
+      perspectiveElement = clip;
+      container.style.transformStyle = 'preserve-3d';
+    }
+    perspectiveElement.style.perspectiveOrigin = 'bottom right';
+    perspectiveElement.style.perspective = '1px';
+    if (sticky)
+      elem.style.position = '-webkit-sticky';
+    if (sticky)
+      elem.style.top = '0';
+    elem.style.transformOrigin = 'bottom right';
+
+    // Find the previous and next elements to parallax between.
+    var previousCover = parallax[i].previousElementSibling;
+    while (previousCover && !previousCover.hasAttribute('parallax-cover'))
+      previousCover = previousCover.previousElementSibling;
+    var nextCover = parallax[i].nextElementSibling;
+    while (nextCover && !nextCover.hasAttribute('parallax-cover'))
+      nextCover = nextCover.nextElementSibling;
+
+    parallaxDetails.push({'node': parallax[i],
+                          'top': parallax[i].offsetTop,
+                          'height': parallax[i].offsetHeight,
+                          'sticky': !!sticky,
+                          'nextCover': nextCover,
+                          'previousCover': previousCover});
   }
-  var parallax = document.querySelectorAll('*[parallax]');
+
+  // Add a scroll listener to hide perspective elements when they should no
+  // longer be visible.
   clip.addEventListener('scroll', function() {
-    for (var i = 0; i < parallax.length; i++) {
-      var container = findContainer(parallax[i]);
+    for (var i = 0; i < parallaxDetails.length; i++) {
+      var container = parallaxDetails[i].node.parentNode;
+      var previousCover = parallaxDetails[i].previousCover;
+      var nextCover = parallaxDetails[i].nextCover;
+      var parallaxStart = previousCover ? (previousCover.offsetTop + previousCover.offsetHeight) : 0;
+      var parallaxEnd = nextCover ? nextCover.offsetTop : container.offsetHeight;
       var threshold = 200;
-      var visible = container.offsetTop - threshold - clip.clientHeight < clip.scrollTop &&
-                    container.offsetTop + container.offsetHeight + threshold > clip.scrollTop;
+      var visible = parallaxStart - threshold - clip.clientHeight < clip.scrollTop &&
+                    parallaxEnd + threshold > clip.scrollTop;
       var display = visible ? 'block' : 'none'
-      if (parallax[i].style.display != display)
-        parallax[i].style.display = display;
+      if (parallaxDetails[i].node.style.display != display)
+        parallaxDetails[i].node.style.display = display;
     }
   });
-  var parallaxDetails = [];
-  for (var i = 0; i < parallax.length; i++) {
-    parallax[i].style.position = 'absolute';
-    parallax[i].style.transformStyle = 'preserve-3d';
-    parallax[i].style.transformOrigin = 'bottom right';
-    parallaxDetails.push({'node': parallax[i],
-                          'height': parallax[i].offsetHeight});
-  }
   window.addEventListener('resize', onResize.bind(null, parallaxDetails));
   onResize(parallaxDetails);
+  for (var i = 0; i < parallax.length; i++) {
+    parallax[i].parentNode.insertBefore(parallax[i], parallax[i].parentNode.firstChild);
+  }
 }
 
 function onResize(details) {
   for (var i = 0; i < details.length; i++) {
-    var container = findContainer(details[i].node);
-    var overflowClip = findOverflowClip(details[i].node);
-    var scrollbarWidth = overflowClip.offsetWidth - overflowClip.clientWidth; 
-    var d2 = details[i].height - overflowClip.clientHeight;
+    var container = details[i].node.parentNode;
 
-    var depth = (details[i].height - container.offsetHeight) / d2;
+    var clip = container.parentNode;
+    var previousCover = details[i].previousCover;
+    var nextCover = details[i].nextCover;
+    var parallaxStart = previousCover ? (previousCover.offsetTop + previousCover.offsetHeight) : 0;
+    var parallaxEnd = nextCover ? nextCover.offsetTop : container.offsetHeight;
+    console.log('Parallax from ' + parallaxStart + ' to ' + parallaxEnd);
+    var scrollbarWidth = details[i].sticky ? 0 : clip.offsetWidth - clip.clientWidth;
+    var parallaxElem = details[i].sticky ? container : clip;
+    var d2 = details[i].height - clip.clientHeight;
+
+    var depth = (details[i].height - parallaxEnd + parallaxStart) / d2;
+    if (details[i].sticky)
+      depth = 1.0 / depth;
 
     var scale = 1.0 / (1.0 - depth);
 
-    // Ugh! The scrollbar is included in the 'bottom right' perspective origin!
+    // The scrollbar is included in the 'bottom right' perspective origin.
     var dx = scrollbarWidth * (scale - 1);
     // Offset for the position within the container.
-    var dy = (container.offsetHeight - details[i].height) * scale;
+    var dy = details[i].sticky ?
+        -(clip.scrollHeight - parallaxStart - details[i].height) * (1 - scale) :
+        (parallaxEnd - details[i].height) * scale;
 
     details[i].node.style.transform = 'scale(' + (1 - depth) + ') translate3d(' + dx + 'px, ' + dy + 'px, ' + depth + 'px)';
   }
-  
-}
 
-function findContainer(node) {
-  while (node && !node.hasAttribute('parallax-container'))
-    node = node.parentNode;
-  return node;
-}
-
-function findOverflowClip(node) {
-  while (node && getComputedStyle(node).overflow == 'visible')
-    node = node.parentNode;
-  return node;
 }

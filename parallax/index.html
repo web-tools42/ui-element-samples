@@ -10,18 +10,19 @@ html, body {
 }
 
 .scene {
-  height: 200%;
+  height: 200vh;
 }
 
 .parallax {
   background-size: cover;
   box-sizing: border-box;
   width: 100%;
-  height: 130%;
-}
-
-.spacer {
-  height: 500px;
+  height: 130vh;
+  /* Since sticky elements still consume space, we set the margin to undo the
+     height of this parallax element making it essentially consume 0 space.
+     TODO(flackr): It would probably be nicer to just move the sticky elements
+     to an absolute position container. */
+  margin-bottom: -130vh;
 }
 
 p {
@@ -46,44 +47,51 @@ p {
   position: relative;
 }
 
-img {
+.parallax {
   border: 5px solid orange;
 }
 
 </style>
 <script src="parallax.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var viewport = document.querySelector('.viewport');
+    initializeParallax(document.querySelector('.viewport'));
+  });
+</script>
 </head>
 <body>
   <div class="viewport">
-    <div class="scene" parallax-container>
+    <div>
       <div class="parallax" style="background-image: url('img/park.jpg');" parallax></div>
-      <p>
-        Bacon ipsum dolor amet ham pastrami tri-tip, ham hock cupim t-bone chicken kevin ribeye beef brisket filet mignon leberkas pig. Drumstick kielbasa filet mignon picanha bresaola chuck tail swine porchetta hamburger salami alcatra beef ribs. Prosciutto meatloaf chuck, tri-tip kevin salami beef jowl sausage tail flank. Fatback pork belly swine spare ribs short ribs bresaola turducken beef jowl jerky pig.
-      </p>
-    </div>
-    <div class="scene black">
-      <p>
-        Shank turkey rump short loin sausage. Short ribs beef ribs pastrami capicola cupim t-bone. Short ribs kevin ball tip picanha beef ribs biltong tail, pork turkey landjaeger rump. Boudin hamburger bacon ham hock beef ribs ribeye prosciutto fatback chicken meatloaf flank ground round pancetta kielbasa. Short ribs meatloaf t-bone pig shank. Porchetta pork loin tongue tri-tip landjaeger cow, bacon t-bone flank sirloin drumstick turducken venison.
-      </p>
-    </div>
-    <div class="scene" parallax-container>
+      <div class="scene">
+        <p>
+          Bacon ipsum dolor amet ham pastrami tri-tip, ham hock cupim t-bone chicken kevin ribeye beef brisket filet mignon leberkas pig. Drumstick kielbasa filet mignon picanha bresaola chuck tail swine porchetta hamburger salami alcatra beef ribs. Prosciutto meatloaf chuck, tri-tip kevin salami beef jowl sausage tail flank. Fatback pork belly swine spare ribs short ribs bresaola turducken beef jowl jerky pig.
+        </p>
+      </div>
+      <div class="scene black" parallax-cover>
+        <p>
+          Shank turkey rump short loin sausage. Short ribs beef ribs pastrami capicola cupim t-bone. Short ribs kevin ball tip picanha beef ribs biltong tail, pork turkey landjaeger rump. Boudin hamburger bacon ham hock beef ribs ribeye prosciutto fatback chicken meatloaf flank ground round pancetta kielbasa. Short ribs meatloaf t-bone pig shank. Porchetta pork loin tongue tri-tip landjaeger cow, bacon t-bone flank sirloin drumstick turducken venison.
+        </p>
+      </div>
       <div class="parallax" style="background-image: url('img/droid.jpg');" parallax></div>
-      <p>
-        Shank turkey rump short loin sausage. Short ribs beef ribs pastrami capicola cupim t-bone. Short ribs kevin ball tip picanha beef ribs biltong tail, pork turkey landjaeger rump. Boudin hamburger bacon ham hock beef ribs ribeye prosciutto fatback chicken meatloaf flank ground round pancetta kielbasa. Short ribs meatloaf t-bone pig shank. Porchetta pork loin tongue tri-tip landjaeger cow, bacon t-bone flank sirloin drumstick turducken venison.
-      </p>
-    </div>
-    <div class="scene black">
-      <p>
-        Shank turkey rump short loin sausage. Short ribs beef ribs pastrami capicola cupim t-bone. Short ribs kevin ball tip picanha beef ribs biltong tail, pork turkey landjaeger rump. Boudin hamburger bacon ham hock beef ribs ribeye prosciutto fatback chicken meatloaf flank ground round pancetta kielbasa. Short ribs meatloaf t-bone pig shank. Porchetta pork loin tongue tri-tip landjaeger cow, bacon t-bone flank sirloin drumstick turducken venison.
-      </p>
-    </div>
-    <div class="scene" parallax-container>
+      <div class="scene">
+        <p>
+          Shank turkey rump short loin sausage. Short ribs beef ribs pastrami capicola cupim t-bone. Short ribs kevin ball tip picanha beef ribs biltong tail, pork turkey landjaeger rump. Boudin hamburger bacon ham hock beef ribs ribeye prosciutto fatback chicken meatloaf flank ground round pancetta kielbasa. Short ribs meatloaf t-bone pig shank. Porchetta pork loin tongue tri-tip landjaeger cow, bacon t-bone flank sirloin drumstick turducken venison.
+        </p>
+      </div>
+      <div class="scene black" parallax-cover>
+        <p>
+          Shank turkey rump short loin sausage. Short ribs beef ribs pastrami capicola cupim t-bone. Short ribs kevin ball tip picanha beef ribs biltong tail, pork turkey landjaeger rump. Boudin hamburger bacon ham hock beef ribs ribeye prosciutto fatback chicken meatloaf flank ground round pancetta kielbasa. Short ribs meatloaf t-bone pig shank. Porchetta pork loin tongue tri-tip landjaeger cow, bacon t-bone flank sirloin drumstick turducken venison.
+        </p>
+      </div>
       <div class="parallax" style="background-image: url('img/desk.jpg');" parallax></div>
-      <p>
-        Bacon ipsum dolor amet ham pastrami tri-tip, ham hock cupim t-bone chicken kevin ribeye beef brisket filet mignon leberkas pig. Drumstick kielbasa filet mignon picanha bresaola chuck tail swine porchetta hamburger salami alcatra beef ribs. Prosciutto meatloaf chuck, tri-tip kevin salami beef jowl sausage tail flank. Fatback pork belly swine spare ribs short ribs bresaola turducken beef jowl jerky pig.
-      </p>
+      <div class="scene">
+        <p>
+          Bacon ipsum dolor amet ham pastrami tri-tip, ham hock cupim t-bone chicken kevin ribeye beef brisket filet mignon leberkas pig. Drumstick kielbasa filet mignon picanha bresaola chuck tail swine porchetta hamburger salami alcatra beef ribs. Prosciutto meatloaf chuck, tri-tip kevin salami beef jowl sausage tail flank. Fatback pork belly swine spare ribs short ribs bresaola turducken beef jowl jerky pig.
+        </p>
+      </div>
     </div>
   </div>
-  <div class="spacer"></div>
 </body>
 </html>

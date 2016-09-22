@@ -5,14 +5,14 @@
 
 /* CSS perspective parallax demo. This demo outlines all of the workarounds
  * necessary to get perspective parallax working performantly in Chrome, Edge,
- * Firefox and Safari (when not using -webkit-overflow-scrolling: touch).
+ * Firefox and Safari.
  *
  * Outstanding issues:
  * - Edge developer tools is showing a Paint of <root> with the bounds of the
  *   window.
  */
 
-html, body { 
+html, body {
   margin:0;
   padding:0;
   height: 100%;
@@ -49,23 +49,17 @@ body {
 #content {
   background: white;
   height: 3000px;
-  /* Chrome cannot handle z-index: -1 on the parallax background without
-     repainting, so we instead move the content above the parallax background.
-     */
-  z-index: 1;
   position: relative;
 }
 
-.header {
-  /* Without this fixed position header, Edge does not correctly parallax until
-     it is forced to repaint. */
+.magic-fixed-pixel {
+  /* Without this fixed position element, Edge does not correctly update the
+     parallax position until it is forced to repaint. */
   position: fixed;
-  z-index: 2;
   top: 0;
-  width: 100%; /* FIXME: This covers up the scrollbar */
-  height: 36px;
-  background: white;
-  border-bottom: 1px solid #aaa;
+  width: 1px;
+  height: 1px;
+  z-index: 1;
 }
 
 /* This magic pixel div is necessary to get the #content div to paint its
@@ -111,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 
 <body>
-<div class="header">This is the header</div>
+<div class="magic-fixed-pixel"></div>
 <div id="overflow">
     <div id="container">
       <div id="parallax"></div>
