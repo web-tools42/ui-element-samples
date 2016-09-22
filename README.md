@@ -2,11 +2,24 @@
 
 A collection of UI element samples written with vanilla web platform features.
 
+**Please note: these are prototypes, and not production-ready. The aim is to demonstrate a solid approach for building performant UI elements.**
+
 ## Getting started
 
 1. Clone the repo.
 2. Open an element's subfolder.
 3. Run index.html
+
+## ES2015 and ES5 Transpilation
+
+Please note: these samples are written in ES2015 and, as such, require [direct browser support](https://kangax.github.io/compat-table/es6/). You can transpile the examples with [BabelJS](https://babeljs.io/docs/usage/cli/):
+
+```bash
+babel --presets=es2015 swipeable-cards/cards.js --out-file swipeable-cards/cards-es5.js
+babel --presets=es2015 side-nav/side-nav.js --out-file side-nav/side-nav-es5.js
+```
+
+But to keep things as simple as possible for everyone, that's out of scope for this set of samples.
 
 ## License
 

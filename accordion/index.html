@@ -1,0 +1,64 @@
+<!--
+Copyright 2016 Google Inc. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <title>Accordionian</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <sc-accordion role="tablist">
+    <sc-pane aria-expanded="true" role="tabpanel">
+      <button role="tab">Panel 1</button>
+      <div class="content">
+        This is some content.
+      </div>
+    </sc-pane>
+
+    <sc-pane role="tabpanel">
+      <button role="tab">Panel 2</button>
+      <div class="content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis varius arcu vel metus sodales, non efficitur felis sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc interdum ligula eu nibh commodo imperdiet a vehicula ipsum. Mauris ut ornare nunc. Phasellus eleifend tempor justo. Sed ante lectus, lobortis nec nisl vitae, posuere gravida lacus. Duis gravida, magna sit amet suscipit scelerisque, turpis ipsum condimentum orci, nec bibendum eros odio a erat. Nam vitae imperdiet magna. Ut venenatis consequat velit, vel consequat metus imperdiet vitae. Fusce bibendum dignissim mauris, a posuere urna facilisis eget. Praesent nec nisi arcu. Nam molestie, diam id congue lacinia, nibh urna cursus massa, sit amet dictum ex dui non dolor. Curabitur eget scelerisque mi. Nam varius, lacus nec ultricies convallis, dolor elit imperdiet lacus, in luctus elit nunc tempus felis. Mauris gravida scelerisque metus quis mattis.</p>
+
+        <p>Pellentesque ut ultrices nibh, ut pharetra ex. Ut nibh odio, fermentum eu tempus nec, maximus et urna. Nunc viverra turpis ut purus ornare, quis sollicitudin tortor facilisis. Sed facilisis, diam vitae dictum vestibulum, magna risus vulputate dui, quis mollis tellus odio non erat. Fusce a commodo metus. Mauris consectetur ex a mi finibus bibendum. Pellentesque in laoreet ipsum, a feugiat ligula. Integer a feugiat ipsum.</p>
+      </div>
+    </sc-pane>
+
+    <sc-pane role="tabpanel">
+      <button role="tab">Panel 3</button>
+      <div class="content">
+        This is some more content.
+      </div>
+    </sc-pane>
+
+    <sc-pane role="tabpanel">
+      <button role="tab">Panel 4</button>
+      <div class="content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis varius arcu vel metus sodales, non efficitur felis sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc interdum ligula eu nibh commodo imperdiet a vehicula ipsum. Mauris ut ornare nunc. Phasellus eleifend tempor justo. Sed ante lectus, lobortis nec nisl vitae, posuere gravida lacus. Duis gravida, magna sit amet suscipit scelerisque, turpis ipsum condimentum orci, nec bibendum eros odio a erat. Nam vitae imperdiet magna. Ut venenatis consequat velit, vel consequat metus imperdiet vitae. Fusce bibendum dignissim mauris, a posuere urna facilisis eget. Praesent nec nisi arcu. Nam molestie, diam id congue lacinia, nibh urna cursus massa, sit amet dictum ex dui non dolor. Curabitur eget scelerisque mi. Nam varius, lacus nec ultricies convallis, dolor elit imperdiet lacus, in luctus elit nunc tempus felis. Mauris gravida scelerisque metus quis mattis.</p>
+
+        <p>Pellentesque ut ultrices nibh, ut pharetra ex. Ut nibh odio, fermentum eu tempus nec, maximus et urna. Nunc viverra turpis ut purus ornare, quis sollicitudin tortor facilisis. Sed facilisis, diam vitae dictum vestibulum, magna risus vulputate dui, quis mollis tellus odio non erat. Fusce a commodo metus. Mauris consectetur ex a mi finibus bibendum. Pellentesque in laoreet ipsum, a feugiat ligula. Integer a feugiat ipsum.</p>
+      </div>
+    </sc-pane>
+  </sc-accordion>
+
+  <script>
+    document.querySelector('sc-accordion').setAttribute('enhanced', '');
+  </script>
+
+  <script src="sc-pane.js"></script>
+  <script src="sc-accordion.js"></script>
+
+</body>
+</html>
