@@ -3,11 +3,24 @@ function initializeParallax(clip, forceSticky) {
   var parallaxDetails = [];
   var sticky = forceSticky;
 
+  // Edge requires a transform on the document body and a fixed position element
+  // in order for it to properly render the parallax effect as you scroll.
+  // See https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/5084491/
+  if (getComputedStyle(document.body).transform == 'none')
+    document.body.style.transform = 'translateZ(0);'
+  var fixedPos = document.createElement('div');
+  fixedPos.style.position = 'fixed';
+  fixedPos.style.top = '0';
+  fixedPos.style.width = '1px';
+  fixedPos.style.height = '1px';
+  fixedPos.style.zIndex = 1;
+  document.body.insertBefore(fixedPos, document.body.firstChild);
+
   for (var i = 0; i < parallax.length; i++) {
     var elem = parallax[i];
     var container = elem.parentNode;
     if (getComputedStyle(container).overflow != 'visible') {
-      console.error('Need non-scrollable container to apply perspective for ', elem);
+      console.error('Need non-scrollable container to apply perspective for', elem);
       continue;
     }
     if (clip && container.parentNode != clip) {
@@ -36,7 +49,7 @@ function initializeParallax(clip, forceSticky) {
 
     // Find the previous and next elements to parallax between.
     var previousCover = parallax[i].previousElementSibling;
-    while (previousCover && !previousCover.hasAttribute('parallax-cover'))
+    while (previousCover && previousCover.hasAttribute('parallax'))
       previousCover = previousCover.previousElementSibling;
     var nextCover = parallax[i].nextElementSibling;
     while (nextCover && !nextCover.hasAttribute('parallax-cover'))
@@ -81,14 +94,18 @@ function onResize(details) {
     var clip = container.parentNode;
     var previousCover = details[i].previousCover;
     var nextCover = details[i].nextCover;
+    var rate = details[i].node.getAttribute('parallax');
+
     var parallaxStart = previousCover ? (previousCover.offsetTop + previousCover.offsetHeight) : 0;
-    var parallaxEnd = nextCover ? nextCover.offsetTop : container.offsetHeight;
-    console.log('Parallax from ' + parallaxStart + ' to ' + parallaxEnd);
     var scrollbarWidth = details[i].sticky ? 0 : clip.offsetWidth - clip.clientWidth;
     var parallaxElem = details[i].sticky ? container : clip;
-    var d2 = details[i].height - clip.clientHeight;
-
-    var depth = (details[i].height - parallaxEnd + parallaxStart) / d2;
+    var depth = 0;
+    if (rate) {
+      depth = 1 - (1 / rate);
+    } else {
+      var parallaxEnd = nextCover ? nextCover.offsetTop : container.offsetHeight;
+      depth = (details[i].height - parallaxEnd + parallaxStart) / (details[i].height - clip.clientHeight);
+    }
     if (details[i].sticky)
       depth = 1.0 / depth;
 
@@ -99,9 +116,8 @@ function onResize(details) {
     // Offset for the position within the container.
     var dy = details[i].sticky ?
         -(clip.scrollHeight - parallaxStart - details[i].height) * (1 - scale) :
-        (parallaxEnd - details[i].height) * scale;
+        (parallaxStart - depth * (details[i].height - clip.clientHeight)) * scale;
 
     details[i].node.style.transform = 'scale(' + (1 - depth) + ') translate3d(' + dx + 'px, ' + dy + 'px, ' + depth + 'px)';
   }
-
 }

@@ -25,6 +25,9 @@ html, body {
 .header {
   height: 30vh;
 }
+.parallax.header {
+  margin-bottom: -30vh;
+}
 
 .spacer {
   height: 500px;
@@ -115,8 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <body>
   <div class="viewport" id="v1">
     <div>
-      <div class="parallax" style="background-image: url('img/park.jpg');" parallax></div>
-      <div class="scene">
+      <div class="parallax header" style="background-image: url('img/header-park.jpg');" parallax="0.3"></div>
+      <div class="scene header">
         <p>
           Bacon ipsum dolor amet ham pastrami tri-tip, ham hock cupim t-bone chicken kevin ribeye beef brisket filet mignon leberkas pig. Drumstick kielbasa filet mignon picanha bresaola chuck tail swine porchetta hamburger salami alcatra beef ribs. Prosciutto meatloaf chuck, tri-tip kevin salami beef jowl sausage tail flank. Fatback pork belly swine spare ribs short ribs bresaola turducken beef jowl jerky pig.
         </p>
@@ -147,8 +150,8 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
   <div class="viewport" id="v2">
     <div>
-      <div class="parallax" style="background-image: url('img/park.jpg');" parallax></div>
-      <div class="scene">
+      <div class="parallax header" style="background-image: url('img/header-park.jpg');" parallax="0.3"></div>
+      <div class="scene header">
         <p>
           Bacon ipsum dolor amet ham pastrami tri-tip, ham hock cupim t-bone chicken kevin ribeye beef brisket filet mignon leberkas pig. Drumstick kielbasa filet mignon picanha bresaola chuck tail swine porchetta hamburger salami alcatra beef ribs. Prosciutto meatloaf chuck, tri-tip kevin salami beef jowl sausage tail flank. Fatback pork belly swine spare ribs short ribs bresaola turducken beef jowl jerky pig.
         </p>

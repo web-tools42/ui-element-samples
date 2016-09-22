@@ -10,7 +10,7 @@ html, body {
 }
 
 .scene {
-  height: 200vh;
+  height: 150vh;
 }
 
 .parallax {
@@ -18,11 +18,17 @@ html, body {
   box-sizing: border-box;
   width: 100%;
   height: 130vh;
-  /* Since sticky elements still consume space, we set the margin to undo the
-     height of this parallax element making it essentially consume 0 space.
-     TODO(flackr): It would probably be nicer to just move the sticky elements
-     to an absolute position container. */
+  /* Since the parallax elements still consume space, we set the margin to undo
+     the height of this parallax element making it essentially consume 0 space.
+  */
   margin-bottom: -130vh;
+}
+
+.header {
+  height: 40vh;
+}
+.parallax.header {
+  margin-bottom: -40vh;
 }
 
 p {
@@ -47,33 +53,31 @@ p {
   position: relative;
 }
 
-.parallax {
-  border: 5px solid orange;
-}
-
 </style>
 <script src="parallax.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var viewport = document.querySelector('.viewport');
     initializeParallax(document.querySelector('.viewport'));
   });
 </script>
 </head>
 <body>
-  <div class="viewport">
+    <div class="viewport">
     <div>
-      <div class="parallax" style="background-image: url('img/park.jpg');" parallax></div>
-      <div class="scene">
+      <!-- Specifying a parallax rate of 0.3 will slide the image at that proportion of the scroll speed. -->
+      <div class="parallax header" style="background-image: url('img/header-park.jpg');" parallax="0.3"></div>
+      <div class="scene header">
         <p>
           Bacon ipsum dolor amet ham pastrami tri-tip, ham hock cupim t-bone chicken kevin ribeye beef brisket filet mignon leberkas pig. Drumstick kielbasa filet mignon picanha bresaola chuck tail swine porchetta hamburger salami alcatra beef ribs. Prosciutto meatloaf chuck, tri-tip kevin salami beef jowl sausage tail flank. Fatback pork belly swine spare ribs short ribs bresaola turducken beef jowl jerky pig.
         </p>
       </div>
-      <div class="scene black" parallax-cover>
+      <div class="scene black">
         <p>
           Shank turkey rump short loin sausage. Short ribs beef ribs pastrami capicola cupim t-bone. Short ribs kevin ball tip picanha beef ribs biltong tail, pork turkey landjaeger rump. Boudin hamburger bacon ham hock beef ribs ribeye prosciutto fatback chicken meatloaf flank ground round pancetta kielbasa. Short ribs meatloaf t-bone pig shank. Porchetta pork loin tongue tri-tip landjaeger cow, bacon t-bone flank sirloin drumstick turducken venison.
         </p>
       </div>
+      <!-- When a rate isn't specified, it will be calculated such that the image always fills the space between the
+           element before it and the next element with the "parallax-cover" attribute. -->
       <div class="parallax" style="background-image: url('img/droid.jpg');" parallax></div>
       <div class="scene">
         <p>
@@ -85,6 +89,8 @@ p {
           Shank turkey rump short loin sausage. Short ribs beef ribs pastrami capicola cupim t-bone. Short ribs kevin ball tip picanha beef ribs biltong tail, pork turkey landjaeger rump. Boudin hamburger bacon ham hock beef ribs ribeye prosciutto fatback chicken meatloaf flank ground round pancetta kielbasa. Short ribs meatloaf t-bone pig shank. Porchetta pork loin tongue tri-tip landjaeger cow, bacon t-bone flank sirloin drumstick turducken venison.
         </p>
       </div>
+      <!-- When a rate isn't specified and there is no subsequent element with the "parallax-cover" attribute the rate
+           will be calculated such that the image slides until the end of the scrollable content. -->
       <div class="parallax" style="background-image: url('img/desk.jpg');" parallax></div>
       <div class="scene">
         <p>
