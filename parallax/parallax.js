@@ -7,7 +7,7 @@ function initializeParallax(clip, forceSticky) {
   // in order for it to properly render the parallax effect as you scroll.
   // See https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/5084491/
   if (getComputedStyle(document.body).transform == 'none')
-    document.body.style.transform = 'translateZ(0);'
+    document.body.style.transform = 'translateZ(0)';
   var fixedPos = document.createElement('div');
   fixedPos.style.position = 'fixed';
   fixedPos.style.top = '0';
