@@ -49,9 +49,9 @@ class SCView extends HTMLElement {
       const newView = newDoc.querySelector('sc-view.visible');
 
       // Copy in the child nodes from the parent.
-      newView.childNodes.forEach(node => {
-        this._view.appendChild(node);
-      });
+      while(newView.firstChild) {
+         this._view.appendChild(newView.firstChild);
+      }
 
       // Add the fragment to the page.
       this.appendChild(this._view);

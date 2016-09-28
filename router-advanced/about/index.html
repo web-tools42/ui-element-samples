@@ -20,9 +20,9 @@ limitations under the License.
   <title>Router</title>
   <link rel="stylesheet" href="/static/superstyles.css">
   <link rel="preload" href="/">
-  <link rel="preload" href="/about/">
+  <!--<link rel="preload" href="/about/">-->
   <link rel="preload" href="/contact/">
-  <!--<link rel="preload" href="/misc/">-->
+  <link rel="preload" href="/misc/">
 </head>
 <body>
   <nav>
@@ -35,7 +35,7 @@ limitations under the License.
   </nav>
 
   <sc-view remote class="view-home" route="^/$"></sc-view>
-  <sc-view class="view-about visible" route="^/about/(.*)">About</sc-view>
+  <sc-view class="view-about visible" route="^/about/(.*)"><div>About</div></sc-view>
   <sc-view remote class="view-contact" route="^/contact/(.*)"></sc-view>
   <sc-view remote class="view-misc" route="^/misc/(.*)"></sc-view>
 
