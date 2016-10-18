@@ -17,6 +17,7 @@
 
 'use strict';
 
+/* global customElements */
 /* eslint-env es6 */
 
 customElements.define('flip-switch', class extends HTMLElement {
@@ -33,7 +34,7 @@ customElements.define('flip-switch', class extends HTMLElement {
     this._elementProxy = document.createElement('div');
   }
 
-  set color(_color) {
+  set color (_color) {
     if (!_color) {
       return;
     }
@@ -79,6 +80,7 @@ customElements.define('flip-switch', class extends HTMLElement {
     this._onResize = this._onResize.bind(this);
     this._onBackButtonClick = this._onBackButtonClick.bind(this);
     this._onTransitionEnd = this._onTransitionEnd.bind(this);
+    this._onKeyPress = this._onKeyPress.bind(this);
 
     if (!this.value) {
       this.value = 1;
@@ -86,7 +88,8 @@ customElements.define('flip-switch', class extends HTMLElement {
     this.color = this.getAttribute('color');
 
     this._addEventListeners();
-    this._onTransitionEnd();
+    this._front.inert = false;
+    this._back.inert = true;
 
     requestAnimationFrame(_ => {
       this._onResize();
@@ -118,6 +121,7 @@ customElements.define('flip-switch', class extends HTMLElement {
     this._front.addEventListener('click', this.flip);
     this._back.addEventListener('click', this._onBackButtonClick);
     this._container.addEventListener('transitionend', this._onTransitionEnd);
+    this.addEventListener('keydown', this._onKeyPress);
     window.addEventListener('resize', this._onResize);
   }
 
@@ -126,6 +130,7 @@ customElements.define('flip-switch', class extends HTMLElement {
     this._front.removeEventListener('click', this.flip);
     this._back.removeEventListener('click', this._onBackButtonClick);
     this._container.removeEventListener('transitionend', this._onTransitionEnd);
+    this.removeEventListener('keydown', this._onKeyPress);
     window.removeEventListener('resize', this._onResize);
   }
 
@@ -164,5 +169,40 @@ customElements.define('flip-switch', class extends HTMLElement {
     const radius = Math.sqrt(rX * rX + rY * rY);
     this._ripple.style.width = `${radius * 2}px`;
     this._ripple.style.height = `${radius * 2}px`;
+  }
+
+  _onKeyPress (evt) {
+    if (this._back.hasAttribute('inert')) {
+      return;
+    }
+
+    if (document.activeElement !== this) {
+      return;
+    }
+
+    const firstTabStop = this._back.querySelector('button');
+    const lastTabStop = this._back.querySelector('button:last-of-type');
+    const deepActive = this._root.activeElement;
+
+    // Check for TAB key press
+    if (evt.keyCode === 9) {
+      // SHIFT + TAB
+      if (evt.shiftKey) {
+        if (deepActive === firstTabStop) {
+          evt.preventDefault();
+          lastTabStop.focus();
+        }
+      // TAB
+      } else if (deepActive === lastTabStop) {
+        evt.preventDefault();
+        firstTabStop.focus();
+      }
+    }
+
+    // ESCAPE
+    if (evt.keyCode === 27) {
+      this.flip();
+      firstTabStop.focus();
+    }
   }
 });
