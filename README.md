@@ -2,6 +2,8 @@
 
 A collection of UI element samples written with vanilla web platform features.
 
+**Please note: these are prototypes, and not production-ready. The aim is to demonstrate a solid approach for building performant UI elements.**
+
 ## Getting started
 
 1. Clone the repo.

@@ -88,11 +88,6 @@ class SideNav {
       return;
 
     this.currentX = evt.touches[0].pageX;
-    const translateX = Math.min(0, this.currentX - this.startX);
-
-    if (translateX < 0) {
-      evt.preventDefault();
-    }
   }
 
   onTouchEnd (evt) {

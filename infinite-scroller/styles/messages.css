@@ -9,6 +9,7 @@
   position: absolute;
   box-sizing: border-box;
   contain: layout;
+  will-change: transform;
 }
 
 .chat-item {
@@ -16,6 +17,7 @@
   padding: 10px 0;
   width: 100%;
   contain: layout;
+  will-change: transform;
 }
 
 .avatar {

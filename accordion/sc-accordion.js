@@ -73,13 +73,11 @@ class SCAccordion extends HTMLElement {
         default: break;
       }
 
-      // if (index < 0) {
-      //   index = 0;
-      // } else if (index >= this._panes.length) {
-      //   index = this._panes.length - 1;
-      // }
-
-      index %= this._panes.length;
+      if (index < 0) {
+        index = 0;
+      } else if (index >= this._panes.length) {
+        index = this._panes.length - 1;
+      }
 
       panesArray[index].header.focus();
     });
@@ -100,8 +98,9 @@ class SCAccordion extends HTMLElement {
   }
 
   _calculateGeometries () {
-    if (this._panes.length === 0)
+    if (this._panes.length === 0) {
       return;
+    }
 
     this._headerHeight = this._panes[0].header.offsetHeight;
     this._availableHeight = this.offsetHeight -

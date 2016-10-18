@@ -103,17 +103,6 @@ class SCFlipCard extends HTMLElement {
         };
   }
 
-  /**
-   * Sends a custom event.
-   * @param {string} name
-   *
-   * @memberOf SCFlipCard
-   */
-  sendEvent (name) {
-    const event = new CustomEvent(name, {bubbles: true});
-    this.dispatchEvent(event);
-  }
-
   createdCallback () {
     this._locked = false;
     this._side = SCFlipCard.SIDES.FRONT;
