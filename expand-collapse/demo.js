@@ -116,13 +116,6 @@ close.addEventListener('click', () => {
   // Play it.
   flipGroup.play();
 
-  // The event to capture at the end of the animation
-  let onFlipComplete = () => {
-    headerImage.removeEventListener('flipComplete', onFlipComplete);
-    item.classList.remove('last');
-  }
-
-  // When the image has finished FLIPing, remove the class from the item itself.
-  headerImage.addEventListener('flipComplete', onFlipComplete);
-
+  // Remove the 'last' class
+  item.classList.remove('last');
 });
