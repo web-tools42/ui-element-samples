@@ -20,7 +20,6 @@
 class SCView extends HTMLElement {
 
   createdCallback () {
-    this._spinnerTimeout = undefined;
     this._view = null;
     this._isRemote = (this.getAttribute('remote') !== null);
   }
