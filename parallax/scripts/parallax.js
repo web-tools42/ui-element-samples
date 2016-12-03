@@ -92,7 +92,10 @@ function initializeParallax(clip) {
       var threshold = 200;
       var visible = parallaxStart - threshold - clip.clientHeight < clip.scrollTop &&
                     parallaxEnd + threshold > clip.scrollTop;
-      var display = visible ? 'block' : 'none'
+      // FIXME: Repainting the images while scrolling can cause jank.
+      // For now, keep them all.
+      // var display = visible ? 'block' : 'none'
+      var display = 'block';
       if (parallaxDetails[i].node.style.display != display)
         parallaxDetails[i].node.style.display = display;
     }
