@@ -4,7 +4,6 @@
 
   function dragStart(event) {
     dragging = true;
-    console.log(event);
     this.style.pointerEvents = 'none';
     this.style.userSelect = 'none';
 
@@ -43,6 +42,7 @@
 
     if(scrollable.isSafari) {
       thumb.nextElementSibling.style.marginTop = `-${thumbHeight}px`;
+      // thumb.scaling = 0.5;
       var z = 1 - 1/(1+thumb.scaling);
       thumb.style.transform = `
         translateZ(${z}px)
@@ -131,8 +131,7 @@
   }
 
   window.addEventListener('load', function () {
-    console.log('ready');
-    window.f = makeCustomScrollbar(document.querySelector('.overflow'));
+    window.recalcScrollbar = makeCustomScrollbar(document.querySelector('.overflow'));
   });
 
 })(self);
