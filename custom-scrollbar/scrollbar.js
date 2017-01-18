@@ -1,4 +1,5 @@
 (function(scope) {
+  document.body.style.transform = 'translateZ(0)';
   var dragging = false;
   var lastY = 0;
 
