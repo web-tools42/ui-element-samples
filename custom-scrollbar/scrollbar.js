@@ -1,5 +1,4 @@
 (function(scope) {
-  document.body.style.transform = 'translateZ(0)';
   var dragging = false;
   var lastY = 0;
 
@@ -31,6 +30,7 @@
   // the amount of overflow.
   function updateThumbSize(scrollable) {
     var thumb = scrollable.thumb;
+    scrollable.perspectiveCtr.style.height = scrollable.scrollHeight + "px";
 
     var viewport = scrollable.getBoundingClientRect();
     var scrollHeight = scrollable.scrollHeight;
@@ -85,7 +85,10 @@
     perspectiveCtr.style.perspectiveOrigin = "top right";
     perspectiveCtr.style.transformStyle = "preserve-3d";
     perspectiveCtr.style.width = "100%";
-    perspectiveCtr.style.minHeight = "100%";
+    // TODO: Put content into perspective container so that it automatically
+    // gets the scrollable content height from its descendants, as right now it
+    // will not detect changes to content size.
+    perspectiveCtr.style.height = scrollable.scrollHeight + "px";
     perspectiveCtr.style.position = 'absolute';
     perspectiveCtr.style.pointerEvents = 'none';
     perspectiveCtr.classList.add('perspective-ctr')
@@ -100,6 +103,7 @@
     thumb.style.right = '0';
     perspectiveCtr.insertBefore(thumb, perspectiveCtr.firstChild);
     scrollable.thumb = thumb;
+    scrollable.perspectiveCtr = perspectiveCtr;
 
     // We are on Safari, where we need to use the sticky trick!
     if (getComputedStyle(scrollable).webkitOverflowScrolling) {
