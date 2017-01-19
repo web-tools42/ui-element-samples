@@ -41,7 +41,7 @@
     thumb.scaling = maxTopOffset / maxScrollTop;
     thumb.style.height = `${thumbHeight}px`;
 
-    if(scrollable.isSafari) {
+    if(scrollable.isIOS) {
       thumb.nextElementSibling.style.marginTop = `-${thumbHeight}px`;
       // thumb.scaling = 0.5;
       var z = 1 - 1/(1+thumb.scaling);
@@ -95,7 +95,6 @@
     thumb.classList.add('thumb');
     thumb.style.pointerEvents = 'initial';
     thumb.style.position = 'absolute';
-    thumb.style.position = '-webkit-sticky';
     thumb.style.transformOrigin = 'top right';
     thumb.style.top = '0';
     thumb.style.right = '0';
@@ -103,10 +102,11 @@
     scrollable.thumb = thumb;
 
     // We are on Safari, where we need to use the sticky trick!
-    if (getComputedStyle(thumb).position === '-webkit-sticky') {
-      scrollable.isSafari = true;
+    if (getComputedStyle(scrollable).webkitOverflowScrolling) {
+      scrollable.isIOS = true;
       thumb.style.right = '';
       thumb.style.left = '100%';
+      thumb.style.position = '-webkit-sticky';
       perspectiveCtr.style.perspective = '1px';
       perspectiveCtr.style.height = '';
       perspectiveCtr.style.width = '';
