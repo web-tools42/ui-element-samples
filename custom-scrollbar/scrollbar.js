@@ -16,7 +16,6 @@
     this.scrollTop += (clientY - lastY)/this.thumb.scaling;
     lastY = clientY;
     event.preventDefault();
-
   }
 
   function dragEnd(event) {
@@ -28,7 +27,10 @@
 
   // The point of this function is to update the thumb's geometry to reflect
   // the amount of overflow.
-  function updateThumbSize(scrollable) {
+  function updateSize(scrollable) {
+    scrollable.style.width = '';
+    scrollable.style.width = `calc(${getComputedStyle(scrollable).width} + 200px)`;
+
     var thumb = scrollable.thumb;
     var viewport = scrollable.getBoundingClientRect();
     var scrollHeight = scrollable.scrollHeight;
@@ -45,6 +47,7 @@
       thumb.style.transform = `
         translateZ(${z}px)
         scale(${1-z})
+        translateX(-200px)
       `;
     } else {
       thumb.style.transform = `
@@ -56,6 +59,7 @@
            0, 0, 0, -1
          )
          translateZ(${-2 + 1 - 1/thumb.scaling}px)
+         translateX(-200px)
       `;
     }
   }
@@ -75,13 +79,13 @@
     document.body.insertBefore(fixedPos, document.body.firstChild);
 
     scrollable.style.perspectiveOrigin = 'top right';
-    scrollable.style.transformStyle = "preserve-3d";
-    scrollable.style.perspective = "1px";
+    scrollable.style.transformStyle = 'preserve-3d';
+    scrollable.style.perspective = '1px';
 
     var perspectiveCtr = document.createElement('div');
-    perspectiveCtr.style.perspectiveOrigin = "top right";
-    perspectiveCtr.style.transformStyle = "preserve-3d";
-    perspectiveCtr.style.width = "100%";
+    perspectiveCtr.style.perspectiveOrigin = 'top right';
+    perspectiveCtr.style.transformStyle = 'preserve-3d';
+    perspectiveCtr.style.width = '100%';
 
     perspectiveCtr.style.position = 'absolute';
     perspectiveCtr.style.pointerEvents = 'none';
@@ -90,7 +94,7 @@
     while(scrollable.firstChild) perspectiveCtr.appendChild(scrollable.firstChild);
 
     scrollable.insertBefore(perspectiveCtr, scrollable.firstChild);
-    var thumb = document.createElement("div");
+    var thumb = document.createElement('div');
     thumb.classList.add('thumb');
     thumb.style.pointerEvents = 'initial';
     thumb.style.position = 'absolute';
@@ -124,7 +128,7 @@
     window.addEventListener('touchend', dragEnd.bind(scrollable), {passive: true});
 
     var f = function () {
-      updateThumbSize(scrollable);
+      updateSize(scrollable);
     };
     requestAnimationFrame(f);
     window.addEventListener('resize', f);
@@ -132,7 +136,10 @@
   }
 
   window.addEventListener('load', function () {
-    window.recalcScrollbar = makeCustomScrollbar(document.querySelector('.overflow'));
+    Array.from(document.querySelectorAll('.overflow')).forEach(scrollable => {
+      makeCustomScrollbar(scrollable);
+      updateSize(scrollable);
+    });
   });
 
 })(self);
