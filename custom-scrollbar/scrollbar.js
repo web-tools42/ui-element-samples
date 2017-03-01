@@ -30,8 +30,6 @@
   // the amount of overflow.
   function updateThumbSize(scrollable) {
     var thumb = scrollable.thumb;
-    scrollable.perspectiveCtr.style.height = scrollable.scrollHeight + "px";
-
     var viewport = scrollable.getBoundingClientRect();
     var scrollHeight = scrollable.scrollHeight;
     var maxScrollTop = scrollHeight - viewport.height;
@@ -43,7 +41,6 @@
 
     if(scrollable.isIOS) {
       thumb.nextElementSibling.style.marginTop = `-${thumbHeight}px`;
-      // thumb.scaling = 0.5;
       var z = 1 - 1/(1+thumb.scaling);
       thumb.style.transform = `
         translateZ(${z}px)
@@ -85,13 +82,12 @@
     perspectiveCtr.style.perspectiveOrigin = "top right";
     perspectiveCtr.style.transformStyle = "preserve-3d";
     perspectiveCtr.style.width = "100%";
-    // TODO: Put content into perspective container so that it automatically
-    // gets the scrollable content height from its descendants, as right now it
-    // will not detect changes to content size.
-    perspectiveCtr.style.height = scrollable.scrollHeight + "px";
+
     perspectiveCtr.style.position = 'absolute';
     perspectiveCtr.style.pointerEvents = 'none';
     perspectiveCtr.classList.add('perspective-ctr')
+
+    while(scrollable.firstChild) perspectiveCtr.appendChild(scrollable.firstChild);
 
     scrollable.insertBefore(perspectiveCtr, scrollable.firstChild);
     var thumb = document.createElement("div");
