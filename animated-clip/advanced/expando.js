@@ -85,13 +85,13 @@ class Expando {
     const collapsed = this._expandBtn.getBoundingClientRect();
     const expanded = this._content.getBoundingClientRect();
 
-    const expandedWidth = Math.abs(expanded.right - elBCR.left); 
-    const expandedHeight = Math.abs(expanded.bottom - elBCR.top); 
+    const expandedWidth = Math.abs(expanded.right - elBCR.left);
+    const expandedHeight = Math.abs(expanded.bottom - elBCR.top);
 
     const collapsedWidth = collapsed.width;
     const collapsedHeight = collapsed.height;
 
-    const exRadius = Math.sqrt(expandedWidth * expandedWidth + 
+    const exRadius = Math.sqrt(expandedWidth * expandedWidth +
         expandedHeight * expandedHeight);
     const colRadius = collapsedWidth * 0.5;
 
@@ -104,9 +104,9 @@ class Expando {
     this._elInner.style.width = `${collapsedWidth}px`;
     this._elInner.style.height = `${collapsedHeight}px`;
 
-    this._elInner.style.transformOrigin = 
+    this._elInner.style.transformOrigin =
         `${collapsedWidth * 0.5}px ${collapsedHeight * 0.5}px`;
-    this._elInnerInverter.style.transformOrigin = 
+    this._elInnerInverter.style.transformOrigin =
         `${collapsedWidth * 0.5}px ${collapsedHeight * 0.5}px`;
 
   }
@@ -128,7 +128,7 @@ class Expando {
     const collapseCircleAnimation = [];
     for (let i = 0; i <= 100; i++) {
       const step = this._ease(i/100);
-      
+
       // Expand animation.
       this._append({
         i,
@@ -158,7 +158,7 @@ class Expando {
       @keyframes expandContentsAnimation {
         ${expandContentsAnimation.join('')}
       }
-      
+
       @keyframes collapseAnimation {
         ${collapseAnimation.join('')}
       }
@@ -176,7 +176,7 @@ class Expando {
         step,
         start,
         end,
-        outerAnimation, 
+        outerAnimation,
         innerAnimation}=opts) {
 
     const scale = start + (end - start) * step;
