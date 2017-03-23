@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<style>
+  div {
+    width: 500px;
+    height: 500px;
+    border: 1px solid black;
+  }
+
+  .container {
+    perspective: 1px;
+    overflow: scroll;
+  }
+
+  .box {
+    background-color: red;
+    transform:
+      matrix3d(
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, -1
+      )
+      translateZ(-2px);
+
+
+  }
+  .spacer {
+    display: block;
+    height: 500px;
+  }
+</style>
+<div class="container">
+  <div class="box"></div>
+  <span class="spacer"></span>
+</div>
