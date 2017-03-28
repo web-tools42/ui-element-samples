@@ -1,18 +1,18 @@
 (function(scope) {
   var dragging = false;
   var lastY = 0;
-
+  
   function dragStart(event) {
     dragging = true;
     this.style.pointerEvents = 'none';
     this.style.userSelect = 'none';
 
-    lastY = event.clientY || event.touches[0].clientY;
+    lastY = (event.clientY || event.clientY === 0) ? event.clientY : event.touches[0].clientY);
   }
 
   function dragMove(event) {
     if (!dragging) return;
-    var clientY = event.clientY || event.touches[0].clientY;
+    var clientY = (event.clientY || event.clientY === 0) ? event.clientY : event.touches[0].clientY);
     this.scrollTop += (clientY - lastY)/this.thumb.scaling;
     lastY = clientY;
     event.preventDefault();
