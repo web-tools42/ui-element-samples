@@ -1,7 +1,7 @@
 (function(scope) {
   var dragging = false;
   var lastY = 0;
-  
+
   function dragStart(event) {
     dragging = true;
     this.style.pointerEvents = 'none';
