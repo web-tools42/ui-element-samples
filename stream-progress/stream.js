@@ -70,8 +70,13 @@ class JSONTransformer {
 }
 
 const dial = document.querySelector('sc-dial');
-fetch('/tweets.json')
+fetch('./tweets.json')
   .then(async resp => {
+
+    if (resp.status != 200) {
+      //Don't try to parse non JSON responses, such as a 404 error...
+    }
+
     const bytesTotal = parseInt(resp.headers.get('Content-Length'), 10);
     const jsonStream = resp.body.pipeThrough(new TransformStream(new JSONTransformer()));
     const reader = jsonStream.getReader();
@@ -80,7 +85,7 @@ fetch('/tweets.json')
     while(true) {
       const {value, done} = await reader.read();
       if(done) {
-        dial.percentage = 1;i
+        dial.percentage = 1;
         return;
       }
 
