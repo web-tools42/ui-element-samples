@@ -75,6 +75,7 @@ fetch('./tweets.json')
 
     if (resp.status != 200) {
       //Don't try to parse non JSON responses, such as a 404 error...
+      return;
     }
 
     const bytesTotal = parseInt(resp.headers.get('Content-Length'), 10);
