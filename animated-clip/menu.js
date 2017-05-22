@@ -28,6 +28,7 @@ class Menu {
     this._animate = false;
     this._duration = 200;
     this._frameTime = 1/60;
+    this._nFrames = Math.round(this._duration / this._frameTime);
     this._collapsed;
 
     this.expand = this.expand.bind(this);
@@ -131,8 +132,6 @@ class Menu {
     if (menuEase) {
       return menuEase;
     }
-
-    this._nFrames = Math.round(this._duration / this._frameTime);
 
     menuEase = document.createElement('style');
     menuEase.classList.add('menu-ease');
