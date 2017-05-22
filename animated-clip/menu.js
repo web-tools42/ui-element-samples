@@ -26,25 +26,20 @@ class Menu {
 
     this._expanded = true;
     this._animate = false;
-    this._duration;
-    this._refreshRate;
-    this._frameTime;
+    this._duration = 200;
+    this._frameTime = 1/60;
     this._collapsed;
 
     this.expand = this.expand.bind(this);
     this.collapse = this.collapse.bind(this);
     this.toggle = this.toggle.bind(this);
 
-    // promisify to give it some breathing space
-    this._getRefreshRate()
-      .then(_ => {
-        this._calculateScales();
-        this._createEaseAnimations();
-        this._addEventListeners();
+    this._calculateScales();
+    this._createEaseAnimations();
+    this._addEventListeners();
 
-        this.collapse();
-        this.activate();
-    });
+    this.collapse();
+    this.activate();
 
   }
 
@@ -98,27 +93,6 @@ class Menu {
     this.expand();
   }
 
-  _getRefreshRate() {
-    const rafPromise = _ => new Promise(window.requestAnimationFrame);
-    const idlePromise = _ => new Promise(window.requestIdleCallback);
-
-    let f1, f2;
-
-    return new Promise(resolve => {
-      idlePromise()
-      .then(_ => rafPromise())
-      .then(_ => rafPromise())
-      .then(frame => {f1 = frame; return rafPromise();})
-      .then(frame => {f2 = frame; return rafPromise();})
-      .then(_ => {
-        this._frameTime = f2 - f1;
-        this._refreshRate = Math.round(1000 / this._frameTime);
-        console.log(`Refresh rate should be ${this._refreshRate}Hz`);
-        resolve();
-      });
-    });
-  }
-
   _addEventListeners () {
     this._menuToggleButton.addEventListener('click', this.toggle);
   }
@@ -158,10 +132,7 @@ class Menu {
       return menuEase;
     }
 
-    this._duration = window.getComputedStyle(this._menu).animationDuration
-      .slice(0, -1) * 1000;
     this._nFrames = Math.round(this._duration / this._frameTime);
-    console.log(`Total of ${this._nFrames} frames`);
 
     menuEase = document.createElement('style');
     menuEase.classList.add('menu-ease');
