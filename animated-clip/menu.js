@@ -198,41 +198,41 @@ class Menu {
   }
 
   _append ({
-    percentage,
-    step,
-    startX,
-    startY,
-    endX,
-    endY,
-    outerAnimation,
-    innerAnimation}=opts) {
+        percentage,
+        step,
+        startX,
+        startY,
+        endX,
+        endY,
+        outerAnimation,
+        innerAnimation}=opts) {
 
-      const xScale = (startX + (endX - startX) * step).toFixed(5);
-      const yScale = (startY + (endY - startY) * step).toFixed(5);
+    const xScale = (startX + (endX - startX) * step).toFixed(5);
+    const yScale = (startY + (endY - startY) * step).toFixed(5);
 
-      const invScaleX = (1 / xScale).toFixed(5);
-      const invScaleY = (1 / yScale).toFixed(5);
+    const invScaleX = (1 / xScale).toFixed(5);
+    const invScaleY = (1 / yScale).toFixed(5);
 
-      outerAnimation.push(`
+    outerAnimation.push(`
       ${percentage}% {
         transform: scale(${xScale}, ${yScale});
       }`);
 
-      innerAnimation.push(`
+    innerAnimation.push(`
       ${percentage}% {
         transform: scale(${invScaleX}, ${invScaleY});
       }`);
-    }
-
-    _clamp (value, min, max) {
-      return Math.max(min, Math.min(max, value));
-    }
-
-    _ease (v, pow=4) {
-      v = this._clamp(v, 0, 1);
-
-      return 1 - Math.pow(1 - v, pow);
-    }
   }
 
-  new Menu()
+  _clamp (value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  _ease (v, pow=4) {
+    v = this._clamp(v, 0, 1);
+
+    return 1 - Math.pow(1 - v, pow);
+  }
+}
+
+new Menu()
