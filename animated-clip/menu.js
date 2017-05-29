@@ -1,19 +1,19 @@
 /**
- *
- * Copyright 2017 Google Inc. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+*
+* Copyright 2017 Google Inc. All rights reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 'use strict';
 
@@ -26,6 +26,9 @@ class Menu {
 
     this._expanded = true;
     this._animate = false;
+    this._duration = 200;
+    this._frameTime = 1/60;
+    this._nFrames = Math.round(this._duration / this._frameTime);
     this._collapsed;
 
     this.expand = this.expand.bind(this);
@@ -38,6 +41,7 @@ class Menu {
 
     this.collapse();
     this.activate();
+
   }
 
   activate () {
@@ -57,7 +61,7 @@ class Menu {
 
     this._menu.style.transform = `scale(${x}, ${y})`;
     this._menuContents.style.transform = `scale(${invX}, ${invY})`;
-    
+
     if (!this._animate) {
       return;
     }
@@ -73,7 +77,7 @@ class Menu {
 
     this._menu.style.transform = `scale(1, 1)`;
     this._menuContents.style.transform = `scale(1, 1)`;
-      
+
     if (!this._animate) {
       return;
     }
@@ -136,8 +140,12 @@ class Menu {
     const menuExpandContentsAnimation = [];
     const menuCollapseAnimation = [];
     const menuCollapseContentsAnimation = [];
-    for (let i = 0; i <= 100; i++) {
-      const step = this._ease(i/100);
+
+    const percentIncrement = 100 / this._nFrames;
+
+    for (let i = 0; i <= this._nFrames; i++) {
+      const step = this._ease(i / this._nFrames).toFixed(5);
+      const percentage = (i * percentIncrement).toFixed(5);
       const startX = this._collapsed.x;
       const startY = this._collapsed.y;
       const endX = 1;
@@ -145,7 +153,7 @@ class Menu {
 
       // Expand animation.
       this._append({
-        i,
+        percentage,
         step,
         startX: this._collapsed.x,
         startY: this._collapsed.y,
@@ -157,7 +165,7 @@ class Menu {
 
       // Collapse animation.
       this._append({
-        i,
+        percentage,
         step,
         startX: 1,
         startY: 1,
@@ -169,49 +177,49 @@ class Menu {
     }
 
     menuEase.textContent = `
-      @keyframes menuExpandAnimation {
-        ${menuExpandAnimation.join('')}
-      }
+    @keyframes menuExpandAnimation {
+      ${menuExpandAnimation.join('')}
+    }
 
-      @keyframes menuExpandContentsAnimation {
-        ${menuExpandContentsAnimation.join('')}
-      }
-      
-      @keyframes menuCollapseAnimation {
-        ${menuCollapseAnimation.join('')}
-      }
+    @keyframes menuExpandContentsAnimation {
+      ${menuExpandContentsAnimation.join('')}
+    }
 
-      @keyframes menuCollapseContentsAnimation {
-        ${menuCollapseContentsAnimation.join('')}
-      }`;
+    @keyframes menuCollapseAnimation {
+      ${menuCollapseAnimation.join('')}
+    }
+
+    @keyframes menuCollapseContentsAnimation {
+      ${menuCollapseContentsAnimation.join('')}
+    }`;
 
     document.head.appendChild(menuEase);
     return menuEase;
   }
 
   _append ({
-        i,
+        percentage,
         step,
-        startX, 
-        startY, 
-        endX, 
-        endY, 
-        outerAnimation, 
+        startX,
+        startY,
+        endX,
+        endY,
+        outerAnimation,
         innerAnimation}=opts) {
 
-    const xScale = startX + (endX - startX) * step;
-    const yScale = startY + (endY - startY) * step;
+    const xScale = (startX + (endX - startX) * step).toFixed(5);
+    const yScale = (startY + (endY - startY) * step).toFixed(5);
 
-    const invScaleX = 1 / xScale;
-    const invScaleY = 1 / yScale;
+    const invScaleX = (1 / xScale).toFixed(5);
+    const invScaleY = (1 / yScale).toFixed(5);
 
     outerAnimation.push(`
-      ${i}% {
+      ${percentage}% {
         transform: scale(${xScale}, ${yScale});
       }`);
 
     innerAnimation.push(`
-      ${i}% {
+      ${percentage}% {
         transform: scale(${invScaleX}, ${invScaleY});
       }`);
   }
