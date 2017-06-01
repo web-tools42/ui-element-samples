@@ -138,6 +138,8 @@ class Menu {
 
     const menuExpandAnimation = [];
     const menuExpandContentsAnimation = [];
+    const menuCollapseAnimation = [];
+    const menuCollapseContentsAnimation = [];
 
     const percentIncrement = 100 / this._nFrames;
 
@@ -160,6 +162,18 @@ class Menu {
         outerAnimation: menuExpandAnimation,
         innerAnimation: menuExpandContentsAnimation
       });
+
+      // Collapse animation.
+      this._append({
+        percentage,
+        step,
+        startX: 1,
+        startY: 1,
+        endX: this._collapsed.x,
+        endY: this._collapsed.y,
+        outerAnimation: menuCollapseAnimation,
+        innerAnimation: menuCollapseContentsAnimation
+      });
     }
 
     menuEase.textContent = `
@@ -169,6 +183,14 @@ class Menu {
 
     @keyframes menuExpandContentsAnimation {
       ${menuExpandContentsAnimation.join('')}
+    }
+
+    @keyframes menuCollapseAnimation {
+      ${menuCollapseAnimation.join('')}
+    }
+
+    @keyframes menuCollapseContentsAnimation {
+      ${menuCollapseContentsAnimation.join('')}
     }`;
 
     document.head.appendChild(menuEase);
