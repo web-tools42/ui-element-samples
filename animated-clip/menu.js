@@ -27,7 +27,7 @@ class Menu {
     this._expanded = true;
     this._animate = false;
     this._duration = 200;
-    this._frameTime = 1/60;
+    this._frameTime = 1000/60;
     this._nFrames = Math.round(this._duration / this._frameTime);
     this._collapsed;
 
