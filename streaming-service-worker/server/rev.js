@@ -51,7 +51,7 @@ module.exports.copyAndRev = async function copyAndRev(cwd, from, to) {
 
       parsedOutputPath.ext = hashExtension(parsedOutputPath.ext, hash);
 
-      hashes.set(`/static/${p}`, `/static-rev/${parsedPath.dir}/${parsedOutputPath.name}${parsedOutputPath.ext}`);
+      hashes.set(`/static/${p}`, `/static-rev/${parsedPath.dir ? parsedPath.dir + "/" : ""}${parsedOutputPath.name}${parsedOutputPath.ext}`);
       await rename(initialOutputPath, path.format(parsedOutputPath));
     })
   );
