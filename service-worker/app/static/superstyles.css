@@ -125,14 +125,12 @@ nav {
   z-index: 1;
 }
 
-nav a {
-  transition: opacity 0.3s ease-in-out;
-}
-.offline nav a {
+body.offline nav a {
   opacity: 0.3;
   pointer-events: none;
 }
-.offline nav a.cached {
+
+body.offline nav a.cached {
   opacity: 1;
   pointer-events: initial;
 }
