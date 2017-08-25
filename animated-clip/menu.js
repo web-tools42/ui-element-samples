@@ -155,10 +155,10 @@ class Menu {
       this._append({
         percentage,
         step,
-        startX: this._collapsed.x,
-        startY: this._collapsed.y,
-        endX: 1,
-        endY: 1,
+        startX,
+        startY,
+        endX,
+        endY,
         outerAnimation: menuExpandAnimation,
         innerAnimation: menuExpandContentsAnimation
       });
