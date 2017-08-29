@@ -41,6 +41,9 @@ class SideNav {
     this.currentX = 0;
     this.touchingSideNav = false;
 
+    this.transitionEndProperty = null;
+    this.transitionEndTime = 0;
+
     this.supportsPassive = undefined;
     this.addEventListeners();
   }
@@ -119,6 +122,13 @@ class SideNav {
   }
 
   onTransitionEnd (evt) {
+    if (evt.propertyName != this.transitionEndProperty && evt.elapsedTime!= this.transitionEndTime){
+      return;
+    }
+
+    this.transitionEndProperty = null;
+    this.transitionEndTime = 0;
+
     this.sideNavEl.classList.remove('side-nav--animatable');
     this.sideNavEl.removeEventListener('transitionend', this.onTransitionEnd);
   }
@@ -127,6 +137,11 @@ class SideNav {
     this.sideNavEl.classList.add('side-nav--animatable');
     this.sideNavEl.classList.add('side-nav--visible');
     this.detabinator.inert = false;
+
+    this.transitionEndProperty = 'transform';
+    // the duration of transition (make unique to distinguish transitions )
+    this.transitionEndTime = 0.33; 
+
     this.sideNavEl.addEventListener('transitionend', this.onTransitionEnd);
   }
 
@@ -134,6 +149,10 @@ class SideNav {
     this.sideNavEl.classList.add('side-nav--animatable');
     this.sideNavEl.classList.remove('side-nav--visible');
     this.detabinator.inert = true;
+
+    this.transitionEndProperty = 'transform';
+    this.transitionEndTime = 0.13;
+
     this.sideNavEl.addEventListener('transitionend', this.onTransitionEnd);
   }
 }
