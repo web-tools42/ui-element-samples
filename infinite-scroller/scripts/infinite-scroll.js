@@ -360,7 +360,6 @@ scope.InfiniteScroller.prototype = {
     if (itemsNeeded <= 0)
       return;
     this.requestInProgress_ = true;
-    var lastItem = this.items_[this.loadedItems_ - 1];
     this.source_.fetch(itemsNeeded).then(this.addContent.bind(this));
   },
 
@@ -385,7 +384,6 @@ scope.InfiniteScroller.prototype = {
    */
   addContent: function(items) {
     this.requestInProgress_ = false;
-    var startIndex = this.items_.length;
     for (var i = 0; i < items.length; i++) {
       if (this.items_.length <= this.loadedItems_)
         this.addItem_();
