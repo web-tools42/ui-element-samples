@@ -1,0 +1,30 @@
+<!doctype html>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<style>
+@keyframes b1-anim {
+  0% { filter: blur(0px); }
+  100% { filter: blur(16px); }
+}
+
+body {
+  margin: 0;
+  background: white;
+}
+
+img, div {
+  width: 100vmin;
+  height: 100vmin;
+}
+
+img {
+  position: absolute;
+  top: 5px;
+}
+
+#b1 {
+  animation: b1-anim 1s infinite alternate linear;
+}
+</style>
+<div id='container'>
+  <img id='b1' src='http://upload.wikimedia.org/wikipedia/en/a/a7/Stanford_Bunny.png'/>
+</div>
