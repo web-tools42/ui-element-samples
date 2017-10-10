@@ -1,70 +1,81 @@
 <!doctype html>
 <meta name=viewport content="width=device-width, initial-scale=1">
 <style>
-  body {
-    font-family: Helvetica;
+  html, body {
+    margin: 0;
+    padding: 0;
   }
-  #dialog {
-    display: none;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  body {
+    display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-
-    width: 200px;
-    height: 130px;
-    background-color: white;
-    border: 1px solid black;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.24);
-  }
-  p {
-    max-width: 720px;
-    color: red;
+    min-height: 100vh;
   }
 </style>
-<button>Show modal dialog</button>
-<div id="content">
-<p>
-Lorem ipsum dolor sit amet, ut fuisset adipisci appellantur eos. Ea mea ludus adversarium. Cum facer denique evertitur an, cu per reprimique quaerendum, adhuc oratio tantas pri ex. Ex nam case verear sanctus, no impedit pericula per, brute adipisci vituperatoribus sea ne. Posse dicit suscipit mea ei, no nam minimum insolens.
-<p>
-Et mea summo mentitum, eu altera appetere comprehensam eum. Te sit graeci impetus verterem, mea ei graeci voluptatum. Ex idque numquam sensibus per. Omnis simul ut duo. Ad sed nobis nullam mnesarchum, eos modo tation atomorum te, sit zril impetus lucilius cu. Et homero regione similique has, solet conceptam nec ex.
-<p>
-Pro at ludus vivendum signiferumque, ad mel reque lucilius. Vim quem zril splendide ei, qui cu quas habeo complectitur. An mei zril conclusionemque, vis ne error munere disputando. Audire officiis invenire in nam, cum an viderer adolescens. At movet recteque nec, mea ei causae fabellas.
-<p>
-Eos timeam lobortis ut. Est utamur aliquam mediocrem at. At his verear assueverit, eam quis facilis et, cum no utamur eruditi fabulas. Noster possim sententiae an duo. Sed ea alterum molestiae posidonium.
-<p>
-Fuisset eleifend ea cum, et nec utinam verterem molestiae. Nulla eripuit ut usu. Omnesque dissentias cum ei, decore dissentias in eam, ex quo amet integre numquam. Nonumy verear admodum te has. Ex aliquid meliore alienum vix, latine corrumpit adipiscing nec et. An dicit aliquip rationibus sit.
-<p>
-Atomorum expetendis interpretaris est an. Ne placerat eleifend mei, sit ea aeterno cotidieque. Ad case expetendis cum. Id laudem vocibus est.
-<p>
-Eam ei aeque facilisis, mundi libris dissentiet ius in. No liber dolore sea, porro omnesque percipit et nec. Cotidieque consequuntur ut eam, veniam ocurreret consectetuer ius et. Augue placerat scriptorem cu eam. Per at nonumy aliquam euripidis, expetenda consequuntur cum te. Omnes dictas ea sed. Vide albucius usu ei, elitr munere ut mel.
-<p>
-Te noster persequeris reprehendunt sit. Nostrud postulant philosophia id mea, et iudico labore utamur his. Cu vide affert patrioque ius, ne inani electram nam, ne mea phaedrum adolescens ullamcorper. Nam quodsi atomorum assueverit te. Eam solet iriure utamur ei.
-<p>
-Cu cum novum sanctus, ea idque munere omnesque pri, vim in regione maiorum. Percipit mandamus te ius, vidit recteque sea no. Ei has omnis clita ceteros. Odio vitae dicant vel ne, per no fabulas inermis interesset. Mel posse malorum dignissim at.
-<p>
-Eam no illud copiosae, rebum civibus ex mei, nullam discere menandri at duo. Per justo bonorum id. Et usu dignissim cotidieque, id sint adhuc cetero quo. Ea mei imperdiet torquatos elaboraret, ad appellantur signiferumque eos. Ea ridens percipitur adversarium ius. In ceteros moderatius eam, recteque incorrupte nec et.
+
+<div id="carousel">
+  <img src="./images/chrome.png">
+  <img src="./images/search.png">
+  <img src="./images/photos.png">
+  <img src="./images/youtube.png">
+  <img src="./images/gmail.png">
+  <img src="./images/maps.png">
 </div>
-<div id="dialog">
-  <h1>I am dialog!</h1>
-  <button>Close</button>
-</div>
-<script src="scripts/animated_blur.js"></script>
+<script src="./scripts/animated_blur.js"></script>
 <script>
-  const dlg = document.querySelector('#dialog');
-  const ab = new AnimatedBlur('lol', document.querySelector('#content'), {steps: 4, duration: 500});
-  ab.update();
-  ab.resize();
-  window.onresize = _ => ab.resize();
-  document.querySelector('body > button').onclick = _ => {
-    dlg.style.display = 'flex';
-    ab.play(AnimatedBlur.BLUR_MODE.BLUR);
-  };
-  document.querySelector('#dialog > button').onclick = _ => {
-    ab.play(AnimatedBlur.BLUR_MODE.UNBLUR);
-    dlg.style.display = '';
-  };
+(function() {
+  const m = new Map();;
+  let timeout = null;
+  function onEnter(event) {
+    timeout = setTimeout(_ => {
+      timeout = null;
+      m.forEach((animation, img) => {
+        if(img === event.target) return;
+        animation.play(AnimatedBlur.BLUR_MODE.BLUR);
+      });
+    }, 500);
+  }
+
+  function onLeave(event) {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+    m.forEach((animation, img) => animation.play(AnimatedBlur.BLUR_MODE.UNBLUR));
+  }
+
+  document.querySelectorAll('#carousel > img').forEach((img, idx) => {
+    img.onmouseenter = onEnter;
+    img.onmouseleave = onLeave;
+    const animation = new AnimatedBlur(`img-${idx}`, img, {steps: 5, duration: 200});
+    animation.update();
+    m.set(img, animation);
+  });
+
+  // for (var i = 0; i < carousel.children.length; ++i) {
+  //   var img = carousel.children[i];
+  //   if (img.classList.contains('clonedElement')) break;
+  //   img.classList.add('animated-blur');
+  //   imgs.push(img);
+  //   var animation = new AnimatedBlur('carousel-' + counter++, img,
+  //       {steps: 5, duration: 100});
+  //   animations.push(animation);
+
+  //   img.resize = function() {
+  //     animations[imgs.indexOf(this)].resize();
+  //   };
+
+  //   img.onmouseenter = function() {
+  //     animations[imgs.indexOf(this)].play(AnimatedBlur.BLUR_MODE.UNBLUR);
+  //   };
+  //   img.onmouseleave = function() {
+  //     animations[imgs.indexOf(this)].play(AnimatedBlur.BLUR_MODE.BLUR);
+  //   };
+  // }
+
+  // for (var i = 0; i < animations.length; ++i) {
+  //   animations[i].update();
+  //   animations[i].play(AnimatedBlur.BLUR_MODE.BLUR);
+  // }
+})();
 </script>
