@@ -14,12 +14,6 @@
 </style>
 
 <div id="carousel">
-  <img src="./images/chrome.png">
-  <img src="./images/search.png">
-  <img src="./images/photos.png">
-  <img src="./images/youtube.png">
-  <img src="./images/gmail.png">
-  <img src="./images/maps.png">
 </div>
 <script src="./scripts/animated_blur.js"></script>
 <script>
@@ -44,12 +38,26 @@
     m.forEach((animation, img) => animation.play(AnimatedBlur.BLUR_MODE.UNBLUR));
   }
 
+  const imgPaths = [
+    "./images/chrome.png",
+    "./images/search.png",
+    "./images/photos.png",
+    "./images/youtube.png",
+    "./images/gmail.png",
+    "./images/maps.png",
+  ];
+
   async function init() {
-    const imgs = Array.from(document.querySelectorAll('#carousel > img'));
+    const carousel = document.querySelector('#carousel');
+
+    let imgs = imgPaths.map(path => {
+      const img = document.createElement('img');
+      img.src = path;
+      carousel.appendChild(img);
+      return new Promise(resolve => img.onload = _ => resolve(img));
+    });
     // Wait for all images to load
-    for(const img of imgs) {
-      await new Promise(resolve => img.onload = resolve);
-    }
+    imgs = await Promise.all(imgs);
     imgs.forEach((img, idx) => {
       img.onmouseenter = onEnter;
       img.onmouseleave = onLeave;
