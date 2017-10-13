@@ -65,6 +65,12 @@
       animation.update();
       m.set(img, animation);
     });
+
+    window.onresize = _ => {
+      m.forEach(anim => {
+        anim.resize();
+      });
+    };
   }
   init();
 })();
