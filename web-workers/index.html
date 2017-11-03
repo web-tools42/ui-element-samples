@@ -1,0 +1,76 @@
+<!--
+Copyright 2017 Google Inc. All Rights Reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SuperCharged 💫</title>
+  <style type="text/css">
+    #input {
+      width:0px;
+      height:0px;
+      overflow: hidden;
+    }
+    #input + label {
+      display:inline-block;
+      background-color: #777;
+      font-family: sans-serif;
+      padding:5px;
+      font-size:2em;
+      color: #f3f3f3;
+    }
+    #input:focus +label {
+      outline: 5px solid teal;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <input type="file" accept="image/*" name="input" id="input">
+    <label for="input" >Choose File</label>
+    <br>
+    <br>
+    <br>
+  </div>
+
+  <canvas id="preview"></canvas>
+
+  <script type="text/javascript">
+    const $input = document.getElementById('input')
+    const $preview = document.getElementById('preview')
+    const previewCtx = $preview.getContext('2d')
+    const worker = new Worker('worker.js')
+
+    worker.addEventListener('message', (d) => {
+      const imageData = d.data
+      previewCtx.putImageData(imageData, 0, 0)
+    });
+
+    function applyFilter() {
+      const imageData = previewCtx.getImageData(0,0, $preview.width, $preview.height)
+      worker.postMessage(imageData, [imageData.data.buffer])
+    }
+
+    $input.addEventListener('change', (e) => {
+      const file = e.target.files[0]
+      createImageBitmap(file)
+        .then((bitmap) => {
+          $preview.width = bitmap.width
+          $preview.height = bitmap.height
+          previewCtx.drawImage(bitmap, 0, 0)
+          applyFilter()
+        })
+    })
+  </script>
+</body>
+</html>
