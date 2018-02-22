@@ -1,0 +1,5 @@
+.vscode
+functions
+node_modules
+public
+firebase-debug.log
