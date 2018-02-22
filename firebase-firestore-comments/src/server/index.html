@@ -1,0 +1,120 @@
+<!--
+Copyright 2018 Google Inc. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supercharged Comments</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f9f9f9;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .sc-container {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .sc-comments {
+      max-width: 680px;
+      margin: 20px auto;
+    }
+
+    .sc-btn {
+      border: 1px solid #2c2c2c;
+      padding: 0 12px;
+      text-align: center;
+      cursor: pointer;
+      height: 32px;
+      border-radius: 6px;
+    }
+
+    .sc-comment-form,
+    .sc-comment,
+    sc-comment-form,
+    sc-comment {
+      background-color: #fdfdfd;
+      padding: 20px;
+      border: 1px solid #777;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .sc-comment-form textarea,
+    sc-comment-form textarea {
+      width: 100%;
+      resize: none;
+      background-color: #fdfdfd;
+      height: 150px;
+      outline: none;
+      border: none;
+      font-size: 20px;
+    }
+
+    .sc-author {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .sc-circle-avatar {
+      height: 32px;
+      width: 32px;
+      background-color: #2c2c2c;
+      border-radius: 50px;
+    }
+
+    .sc-author-name {
+      color: #999;
+      margin-left: 10px;
+    }
+
+    .sc-hidden {
+      display: none;
+    }
+  </style>
+  <script src="/__/firebase/4.9.1/firebase-app.js" defer></script>
+  <script src="/__/firebase/4.9.1/firebase-firestore.js" defer></script>
+  <script src="/__/firebase/4.9.1/firebase-auth.js" defer></script>
+  <script src="/__/firebase/init.js" defer></script>
+  <script type="module" src="index.js"></script>
+</head>
+
+<body>
+  <div class="sc-container">
+
+    <div class="sc-comments">
+
+      <sc-login></sc-login>
+
+      <h3>Comments</h3>
+
+      <!-- ::COMMENT_FORM:: -->
+
+      <!-- ::COMMENT_LIST:: -->
+
+    </div>
+
+  </div>
+</body>
+
+</html>
