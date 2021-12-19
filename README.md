@@ -1,34 +1,53 @@
-# UI Elements
-
-A collection of UI element samples written with vanilla web platform features.
-
-**Please note: these are prototypes, and not production-ready. The aim is to demonstrate a solid approach for building performant UI elements.**
-
-## Getting started
-
-1. Clone the repo.
-2. Open an element's subfolder.
-3. Run index.html
-
-## ES2015 and ES5 Transpilation
-
-Please note: these samples are written in ES2015 and, as such, require [direct browser support](https://kangax.github.io/compat-table/es6/). You can transpile the examples with [BabelJS](https://babeljs.io/docs/usage/cli/):
-
-```bash
-babel --presets=es2015 swipeable-cards/cards.js --out-file swipeable-cards/cards-es5.js
-babel --presets=es2015 side-nav/side-nav.js --out-file side-nav/side-nav-es5.js
-```
-
-But to keep things as simple as possible for everyone, that's out of scope for this set of samples.
-
-## License
-
-Copyright 2015 Google, Inc.
-
-Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements. See the NOTICE file distributed with this work for additional information regarding copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-
-Please note: this is not a Google product
+substring filter
+https://www.youtube.com/playlist?list=PLNYkxOF6rcIBz9ACEQRmO9Lw8PW7vn0lr
+https://web-tools42.github.io/ui-element-samples/image-zoomer/
+https://www.youtube.com/watch?v=e8IwM3iqnL0
+https://web-tools42.github.io/ui-element-samples/swipeable-cards/
+https://www.youtube.com/watch?v=rBSY7BOYRo4
+https://www.youtube.com/watch?v=F3A6Skckh9c
+https://web-tools42.github.io/ui-element-samples/side-nav/
+https://www.youtube.com/watch?v=e5CXg1sjTqQ
+https://www.youtube.com/watch?v=Mhnj3PiPnZw
+https://web-tools42.github.io/ui-element-samples/router/
+https://www.youtube.com/watch?v=Sw-ICM_V1eQ
+https://www.youtube.com/watch?v=q2azIeeeqZA
+https://web-tools42.github.io/ui-element-samples/router-advanced/
+https://www.youtube.com/watch?v=fAFYXPVdJ7I
+https://www.youtube.com/watch?v=j63wb8OfrZE
+https://web-tools42.github.io/ui-element-samples/accordion/
+https://www.youtube.com/watch?v=P2glQ0fz7DM
+https://www.youtube.com/watch?v=hw4mo7EALOw
+https://web-tools42.github.io/ui-element-samples/3d-card-flip/
+https://www.youtube.com/watch?v=rn5s6H_Yamo
+https://www.youtube.com/watch?v=e9UXt8P9XKU
+https://web-tools42.github.io/ui-element-samples/server-side-rendering
+https://www.youtube.com/watch?v=8LM4p7l9YMY
+https://www.youtube.com/watch?v=Tzmmt0gO3Hw
+https://web-tools42.github.io/ui-element-samples/code-splitting
+https://www.youtube.com/watch?v=4KVeNoN1aFM
+https://web-tools42.github.io/ui-element-samples/streaming-service-worker
+https://www.youtube.com/watch?v=3Tr-scf7trE
+https://web-tools42.github.io/ui-element-samples/webgl-image-processing
+https://www.youtube.com/watch?v=_ZQOUQsw_YI
+https://web-tools42.github.io/ui-element-samples/web-workers
+https://www.youtube.com/watch?v=X57mh8tKkgE
+https://web-tools42.github.io/ui-element-samples/stream-progress/
+https://www.youtube.com/watch?v=JkXZ35MSLaE
+https://web-tools42.github.io/ui-element-samples/lazy-image/static/index_rendered.html
+https://www.youtube.com/watch?v=tHJwRWrexqg
+https://web-tools42.github.io/ui-element-samples/expand-collapse/
+https://web-tools42.github.io/ui-element-samples/flip-switch/
+https://www.youtube.com/watch?v=r94IxRRKR0A
+https://web-tools42.github.io/ui-element-samples/service-worker
+https://www.youtube.com/watch?v=X8EQSy-ajo4
+https://web-tools42.github.io/ui-element-samples/infinite-scroller/
+https://developers.google.com/web/updates/2016/07/infinite-scroller
+https://web-tools42.github.io/ui-element-samples/parallax/
+https://developers.google.com/web/updates/2016/12/performant-parallaxing
+https://web-tools42.github.io/ui-element-samples/animated-clip/
+https://web-tools42.github.io/ui-element-samples/animated-clip/advanced/
+https://developers.google.com/web/updates/2017/03/performant-expand-and-collapse
+https://web-tools42.github.io/ui-element-samples/custom-scrollbar/
+https://developers.google.com/web/updates/2017/03/custom-scrollbar
+https://web-tools42.github.io/ui-element-samples/template/
+https://github.com/googlechrome/ui-element-samples
